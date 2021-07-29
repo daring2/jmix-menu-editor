@@ -1,0 +1,10 @@
+.gradle
+.jmix
+.idea
+
+build/
+out/
+
+/config/
+/log/
+/temp/
