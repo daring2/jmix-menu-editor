@@ -74,7 +74,6 @@ public class MenuEntity {
     @Lob
     private String config;
 
-
     public Date getDeletedDate() {
         return deletedDate;
     }

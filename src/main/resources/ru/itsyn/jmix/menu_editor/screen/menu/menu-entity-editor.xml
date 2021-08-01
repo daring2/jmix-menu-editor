@@ -7,6 +7,9 @@
             <fetchPlan extends="_base"/>
             <loader/>
         </instance>
+        <collection id="itemsDc" class="ru.itsyn.jmix.menu_editor.entity.MenuItemEntity">
+            <loader id="itemsDl"/>
+        </collection>
     </data>
     <facets>
         <dataLoadCoordinator auto="true"/>
@@ -41,7 +44,27 @@
                     <button id="closeBtn" action="windowClose"/>
                 </hbox>
             </vbox>
-            <vbox height="100%" width="100%" margin="true" spacing="true">
+            <vbox expand="itemsTable" height="100%" width="100%" margin="true" spacing="true">
+                <treeDataGrid id="itemsTable" dataContainer="itemsDc" hierarchyProperty="parent" width="100%"
+                              sortable="false">
+                    <actions>
+                        <action id="create" type="create"/>
+                        <action id="edit" type="edit"/>
+                        <action id="remove" type="remove"/>
+<!--                        <action id="resetMenu" caption="msg://resetMenu"/>-->
+                    </actions>
+                    <columns>
+<!--                        <column property="itemId" collapsed="true"/>-->
+                        <column id="caption" caption="msg://ru.itsyn.jmix.menu_editor.entity/MenuItemEntity.caption"/>
+                        <column property="screen"/>
+                    </columns>
+                    <buttonsPanel alwaysVisible="true">
+                        <button action="itemsTable.create"/>
+                        <button action="itemsTable.edit"/>
+                        <button action="itemsTable.remove"/>
+<!--                        <button action="itemsTable.resetMenu"/>-->
+                    </buttonsPanel>
+                </treeDataGrid>
             </vbox>
         </split>
     </layout>
