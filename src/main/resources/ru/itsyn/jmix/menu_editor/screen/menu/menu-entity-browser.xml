@@ -42,7 +42,6 @@
                 <column id="code"/>
                 <column id="priority"/>
                 <column id="description"/>
-                <column id="config"/>
             </columns>
             <simplePagination/>
             <buttonsPanel id="buttonsPanel" alwaysVisible="true">
