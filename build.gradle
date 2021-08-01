@@ -32,6 +32,7 @@ dependencies {
     implementation 'io.jmix.security:jmix-security-ui-starter'
     implementation 'io.jmix.security:jmix-security-data-starter'
     implementation 'io.jmix.localfs:jmix-localfs-starter'
+    implementation "io.jmix.translations:jmix-translations-ru"
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
