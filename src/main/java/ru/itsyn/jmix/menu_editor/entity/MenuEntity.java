@@ -3,6 +3,7 @@ package ru.itsyn.jmix.menu_editor.entity;
 import io.jmix.core.annotation.DeletedBy;
 import io.jmix.core.annotation.DeletedDate;
 import io.jmix.core.entity.annotation.JmixGeneratedValue;
+import io.jmix.core.metamodel.annotation.InstanceName;
 import io.jmix.core.metamodel.annotation.JmixEntity;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -55,6 +56,7 @@ public class MenuEntity {
     @Temporal(TemporalType.TIMESTAMP)
     private Date deletedDate;
 
+    @InstanceName
     @Column(name = "NAME", nullable = false, unique = true)
     @NotNull
     private String name;
