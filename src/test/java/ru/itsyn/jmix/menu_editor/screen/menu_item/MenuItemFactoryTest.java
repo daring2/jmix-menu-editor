@@ -32,7 +32,7 @@ class MenuItemFactoryTest {
         when(f.messages.getMessage(MESSAGE_PACK, "rootItemCaption"))
                 .thenReturn("root caption");
         var ri = f.createRootItem();
-        assertEquals(ROOT_ITEM_ID, ri.getItemId());
+        assertEquals(ROOT_ITEM_ID, ri.getId());
         assertEquals(MenuItemType.MENU, ri.getItemType());
         assertEquals("root caption", ri.getCaptionKey());
     }
@@ -100,7 +100,7 @@ class MenuItemFactoryTest {
             assertEquals("separator caption", item.getCaptionKey());
             assertNull(item.getScreen());
             if (item.getParent() != null) {
-                assertEquals("separator-0", item.getItemId());
+                assertEquals("separator-0", item.getId());
             }
         } if (itemType == MenuItemType.SCREEN) {
             assertEquals("screen1", item.getScreen());

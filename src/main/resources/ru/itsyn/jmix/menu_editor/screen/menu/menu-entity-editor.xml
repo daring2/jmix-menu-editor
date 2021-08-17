@@ -54,7 +54,7 @@
 <!--                        <action id="resetMenu" caption="msg://resetMenu"/>-->
                     </actions>
                     <columns>
-<!--                        <column property="itemId" collapsed="true"/>-->
+<!--                        <column property="id" collapsed="true"/>-->
                         <column id="caption" caption="msg://ru.itsyn.jmix.menu_editor.entity/MenuItemEntity.caption"/>
                         <column property="screen"/>
                     </columns>

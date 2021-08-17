@@ -58,7 +58,7 @@ public class MenuEntityEditor extends StandardEditor<MenuEntity> {
         TreeGrid<MenuItemEntity> grid = itemsTable.unwrap(TreeGrid.class);
         var dragSource = new TreeGridDragSource<>(grid);
         dragSource.setEffectAllowed(EffectAllowed.MOVE);
-        dragSource.setDragDataGenerator(DATA_TYPE_TEXT_PLAIN, MenuItemEntity::getItemId);
+        dragSource.setDragDataGenerator(DATA_TYPE_TEXT_PLAIN, MenuItemEntity::getId);
         var dropTarget = new TreeGridDropTarget<>(grid, DropMode.ON_TOP_OR_BETWEEN);
         //TODO add DropCriteriaScript
         dropTarget.addTreeGridDropListener(this::onDropItem);

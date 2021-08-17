@@ -1,6 +1,5 @@
 package ru.itsyn.jmix.menu_editor.entity;
 
-import io.jmix.core.entity.annotation.JmixGeneratedValue;
 import io.jmix.core.entity.annotation.JmixId;
 import io.jmix.core.metamodel.annotation.InstanceName;
 import io.jmix.core.metamodel.annotation.JmixEntity;
@@ -9,10 +8,7 @@ import io.jmix.core.metamodel.annotation.JmixProperty;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import java.util.function.Consumer;
-
-import static io.jmix.core.UuidProvider.createUuid;
 
 @JmixEntity(name = "menu_MenuItemEntity", annotatedPropertiesOnly = true)
 public class MenuItemEntity {
@@ -20,7 +16,7 @@ public class MenuItemEntity {
     @NotNull
     @JmixId
     @JmixProperty(mandatory = true)
-    private String itemId;
+    private String id;
 
     @JmixProperty
     private String captionKey;
@@ -67,12 +63,12 @@ public class MenuItemEntity {
     @JmixProperty
     private String contentXml;
 
-    public String getItemId() {
-        return itemId;
+    public String getId() {
+        return id;
     }
 
-    public void setItemId(String itemId) {
-        this.itemId = itemId;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getCaptionKey() {

@@ -27,7 +27,7 @@ public class MenuItemFactory {
 
     public MenuItemEntity createRootItem() {
         var re = new MenuItemEntity();
-        re.setItemId(ROOT_ITEM_ID);
+        re.setId(ROOT_ITEM_ID);
         re.setItemType(MenuItemType.MENU);
         re.setCaptionKey(messages.getMessage(MESSAGE_PACK, "rootItemCaption"));
         return re;
@@ -35,7 +35,7 @@ public class MenuItemFactory {
 
     public MenuItemEntity createItem(MenuItem item) {
         var e = new MenuItemEntity();
-        e.setItemId(item.getId());
+        e.setId(item.getId());
         e.setCaptionKey(item.getCaption());
         e.setDescription(item.getDescription());
         e.setStyleName(item.getStylename());
@@ -45,7 +45,7 @@ public class MenuItemFactory {
             e.setExpanded(item.isExpanded());
         } else if (item.isSeparator()) {
             e.setItemType(MenuItemType.SEPARATOR);
-            e.setItemId(buildSeparatorId(item));
+            e.setId(buildSeparatorId(item));
             e.setCaptionKey(messages.getMessage(e.getItemType()));
         } else {
             e.setItemType(MenuItemType.SCREEN);

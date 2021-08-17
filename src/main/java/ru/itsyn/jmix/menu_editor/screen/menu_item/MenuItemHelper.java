@@ -1,6 +1,5 @@
 package ru.itsyn.jmix.menu_editor.screen.menu_item;
 
-import io.jmix.ui.UiComponents;
 import io.jmix.ui.menu.MenuConfig;
 import io.jmix.ui.menu.MenuItem;
 import org.springframework.stereotype.Component;
@@ -23,7 +22,7 @@ public class MenuItemHelper {
     }
 
     public String getItemCaption(MenuItemEntity item) {
-        var mi = new MenuItem(item.getItemId());
+        var mi = new MenuItem(item.getId());
         mi.setCaption(item.getCaptionKey());
         return menuConfig.getItemCaption(mi);
     }

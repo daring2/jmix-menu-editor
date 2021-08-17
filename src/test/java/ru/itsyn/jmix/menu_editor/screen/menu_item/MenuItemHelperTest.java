@@ -29,7 +29,7 @@ class MenuItemHelperTest {
 
     MenuItemEntity newItem(String id, MenuItemEntity parent) {
         var i = new MenuItemEntity();
-        i.setItemId(id);
+        i.setId(id);
         if (parent != null) {
             i.setParent(parent);
             parent.getChildren().add(i);
