@@ -9,17 +9,22 @@ import com.vaadin.ui.components.grid.TreeGridDropEvent;
 import com.vaadin.ui.components.grid.TreeGridDropTarget;
 import io.jmix.core.LoadContext;
 import io.jmix.core.Messages;
+import io.jmix.core.common.util.Dom4j;
 import io.jmix.ui.Notifications;
+import io.jmix.ui.action.Action.ActionPerformedEvent;
 import io.jmix.ui.action.list.RemoveAction;
 import io.jmix.ui.component.DataGrid.ColumnGeneratorEvent;
 import io.jmix.ui.component.TreeDataGrid;
 import io.jmix.ui.model.CollectionContainer;
+import io.jmix.ui.model.CollectionLoader;
 import io.jmix.ui.model.InstanceContainer.ItemChangeEvent;
 import io.jmix.ui.screen.*;
 import ru.itsyn.jmix.menu_editor.entity.MenuEntity;
 import ru.itsyn.jmix.menu_editor.entity.MenuItemEntity;
+import ru.itsyn.jmix.menu_editor.screen.menu_item.MenuConfigBuilder;
 import ru.itsyn.jmix.menu_editor.screen.menu_item.MenuItemHelper;
 import ru.itsyn.jmix.menu_editor.screen.menu_item.MenuItemLoader;
+import ru.itsyn.jmix.menu_editor.util.DialogHelper;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -38,11 +43,17 @@ public class MenuEntityEditor extends StandardEditor<MenuEntity> {
     @Inject
     Notifications notifications;
     @Inject
+    DialogHelper dialogHelper;
+    @Inject
     MenuItemLoader menuItemLoader;
     @Inject
     MenuItemHelper menuItemHelper;
     @Inject
+    MenuConfigBuilder menuConfigBuilder;
+    @Inject
     CollectionContainer<MenuItemEntity> itemsDc;
+    @Inject
+    CollectionLoader<MenuItemEntity> itemsDl;
     @Inject
     TreeDataGrid<MenuItemEntity> itemsTable;
     @Named("itemsTable.remove")
@@ -128,6 +139,26 @@ public class MenuEntityEditor extends StandardEditor<MenuEntity> {
     @Install(to = "itemsTable.caption", subject = "columnGenerator")
     protected String newItemCaptionCell(ColumnGeneratorEvent<MenuItemEntity> event) {
         return menuItemHelper.getItemCaption(event.getItem());
+    }
+
+    @Subscribe("itemsTable.resetMenu")
+    public void onResetMenu(ActionPerformedEvent event) {
+        dialogHelper.newConfirmationDialog(
+                messages.getMessage(getClass(), "resetConfirmation"),
+                this::resetMenu
+        ).show();
+    }
+
+    protected void resetMenu(ActionPerformedEvent event) {
+        var rootItem = menuItemLoader.loadDefaultMenu();
+        updateMenuConfig(rootItem);
+        itemsDl.load();
+    }
+
+    protected void updateMenuConfig(MenuItemEntity rootItem) {
+        var doc = menuConfigBuilder.buildMenuConfig(rootItem.getChildren());
+        var config = Dom4j.writeDocument(doc, true);
+        getEditedEntity().setConfig(config);
     }
 
     protected MenuItemEntity getRootItem() {

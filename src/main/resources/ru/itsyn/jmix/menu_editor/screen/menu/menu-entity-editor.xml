@@ -51,7 +51,7 @@
                         <action id="create" type="create"/>
                         <action id="edit" type="edit"/>
                         <action id="remove" type="remove"/>
-<!--                        <action id="resetMenu" caption="msg://resetMenu"/>-->
+                        <action id="resetMenu" caption="msg://resetMenu"/>
                     </actions>
                     <columns>
 <!--                        <column property="id" collapsed="true"/>-->
@@ -62,7 +62,7 @@
                         <button action="itemsTable.create"/>
                         <button action="itemsTable.edit"/>
                         <button action="itemsTable.remove"/>
-<!--                        <button action="itemsTable.resetMenu"/>-->
+                        <button action="itemsTable.resetMenu"/>
                     </buttonsPanel>
                 </treeDataGrid>
             </vbox>
