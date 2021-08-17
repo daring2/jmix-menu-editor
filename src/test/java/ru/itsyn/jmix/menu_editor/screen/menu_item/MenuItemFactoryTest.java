@@ -100,7 +100,7 @@ class MenuItemFactoryTest {
             assertEquals("separator caption", item.getCaptionKey());
             assertNull(item.getScreen());
             if (item.getParent() != null) {
-                assertEquals("separator-0", item.getId());
+                assertEquals("separator-0", item.getItemId());
             }
         } if (itemType == MenuItemType.SCREEN) {
             assertEquals("screen1", item.getScreen());

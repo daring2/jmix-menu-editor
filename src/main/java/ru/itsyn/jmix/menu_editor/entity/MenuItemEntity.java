@@ -17,12 +17,8 @@ import static io.jmix.core.UuidProvider.createUuid;
 @JmixEntity(name = "menu_MenuItemEntity", annotatedPropertiesOnly = true)
 public class MenuItemEntity {
 
-    @JmixGeneratedValue
-    @JmixId
-    @JmixProperty(mandatory = true)
-    private UUID id;
-
     @NotNull
+    @JmixId
     @JmixProperty(mandatory = true)
     private String itemId;
 
@@ -70,18 +66,6 @@ public class MenuItemEntity {
 
     @JmixProperty
     private String contentXml;
-
-    public MenuItemEntity() {
-        id = createUuid();
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
 
     public String getItemId() {
         return itemId;
@@ -214,7 +198,6 @@ public class MenuItemEntity {
     @InstanceName
     @JmixProperty
     public String getCaption() {
-        //TODO implement
         return captionKey;
     }
 
@@ -225,6 +208,35 @@ public class MenuItemEntity {
     public void visitItems(Consumer<MenuItemEntity> consumer) {
         consumer.accept(this);
         children.forEach(i -> i.visitItems(consumer));
+    }
+
+    public boolean hasAncestor(MenuItemEntity item) {
+        var pi = getParent();
+        while (pi != null) {
+            if (pi.equals(item))
+                return true;
+            pi = pi.getParent();
+        }
+        return false;
+    }
+
+    public int getChildIndex(MenuItemEntity item) {
+        return children.indexOf(item);
+    }
+
+    public void addChild(MenuItemEntity item, int index) {
+        var pi = item.getParent();
+        if (pi != null)
+            pi.getChildren().remove(item);
+        item.setParent(this);
+        if (index == -1)
+            index = children.size();
+        children.add(index, item);
+    }
+
+    public void removeChild(MenuItemEntity item) {
+        item.setParent(null);
+        children.remove(item);
     }
 
 }
