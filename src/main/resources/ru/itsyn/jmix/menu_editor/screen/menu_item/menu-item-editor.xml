@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://jmix.io/schema/ui/window"
+        caption="msg://menuItemEditor.caption"
+        focusComponent="form">
+    <data>
+        <instance id="editDc" class="ru.itsyn.jmix.menu_editor.entity.MenuItemEntity">
+            <fetchPlan extends="_base"/>
+            <loader/>
+        </instance>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+        <screenSettings id="settingsFacet" auto="true"/>
+    </facets>
+    <actions>
+        <action id="windowCommitAndClose" caption="msg:///actions.Ok"
+                icon="EDITOR_OK"
+                primary="true"
+                shortcut="${COMMIT_SHORTCUT}"/>
+        <action id="windowClose"
+                caption="msg:///actions.Close"
+                icon="EDITOR_CANCEL"/>
+    </actions>
+    <dialogMode height="700" width="1024" resizable="true"/>
+    <layout expand="contentField">
+        <form id="form" dataContainer="editDc" width="100%">
+            <column width="100%">
+                <textField id="idField" property="id"/>
+                <comboBox id="openModeField" property="openMode"/>
+                <textField id="captionKeyField" property="captionKey"/>
+                <textField id="descriptionField" property="description"/>
+                <textField id="screenField" property="screen"/>
+                <textField id="beanField" property="bean"/>
+                <checkBox id="expandedField" property="expanded" colspan="2"/>
+                <textField id="styleNameField" property="styleName"/>
+            </column>
+            <column width="100%">
+                <comboBox id="itemTypeField" property="itemType"/>
+                <textField id="parentField" property="parent" editable="false"/>
+                <textField id="captionField" property="caption" editable="false"/>
+                <textField id="shortcutField" property="shortcut"/>
+                <textField id="runnableClassField" property="runnableClass"/>
+                <textField id="beanMethodField" property="beanMethod"/>
+                <textField id="iconField" property="icon"/>
+            </column>
+        </form>
+        <!-- TODO improve layout -->
+        <sourceCodeEditor id="contentField" dataContainer="editDc" property="contentXml" width="100%"
+                          mode="XML" highlightActiveLine="false" showGutter="false"
+                          caption="msg://ru.itsyn.jmix.menu_editor.entity/MenuItemEntity.contentXml"/>
+        <hbox id="editActions" spacing="true" margin="true" align="TOP_CENTER">
+            <button id="commitAndCloseBtn" action="windowCommitAndClose"/>
+            <button id="closeBtn" action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

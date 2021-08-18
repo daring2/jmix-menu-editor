@@ -11,6 +11,9 @@ import io.jmix.core.LoadContext;
 import io.jmix.core.Messages;
 import io.jmix.core.common.util.Dom4j;
 import io.jmix.ui.Notifications;
+import io.jmix.ui.RemoveOperation;
+import io.jmix.ui.RemoveOperation.AfterActionPerformedEvent;
+import io.jmix.ui.ScreenBuilders;
 import io.jmix.ui.action.Action.ActionPerformedEvent;
 import io.jmix.ui.action.list.RemoveAction;
 import io.jmix.ui.component.DataGrid.ColumnGeneratorEvent;
@@ -19,6 +22,7 @@ import io.jmix.ui.model.CollectionContainer;
 import io.jmix.ui.model.CollectionLoader;
 import io.jmix.ui.model.DataContext;
 import io.jmix.ui.model.InstanceContainer.ItemChangeEvent;
+import io.jmix.ui.navigation.Route;
 import io.jmix.ui.screen.*;
 import ru.itsyn.jmix.menu_editor.entity.MenuEntity;
 import ru.itsyn.jmix.menu_editor.entity.MenuItemEntity;
@@ -35,6 +39,7 @@ import java.util.List;
 import static com.vaadin.shared.ui.dnd.DragSourceState.DATA_TYPE_TEXT_PLAIN;
 import static ru.itsyn.jmix.menu_editor.screen.menu_item.MenuItemFactory.ROOT_ITEM_ID;
 
+@Route(path = "MenuEntity/edit", parentPrefix = "MenuEntity")
 @UiController("menu_MenuEntity.edit")
 @UiDescriptor("menu-entity-editor.xml")
 @EditedEntityContainer("editDc")
@@ -44,6 +49,10 @@ public class MenuEntityEditor extends StandardEditor<MenuEntity> {
     Messages messages;
     @Inject
     Notifications notifications;
+    @Inject
+    ScreenBuilders screenBuilders;
+    @Inject
+    RemoveOperation removeOperation;
     @Inject
     DialogHelper dialogHelper;
     @Inject
@@ -143,6 +152,47 @@ public class MenuEntityEditor extends StandardEditor<MenuEntity> {
     @Install(to = "itemsTable.caption", subject = "columnGenerator")
     protected String newItemCaptionCell(ColumnGeneratorEvent<MenuItemEntity> event) {
         return menuItemHelper.getItemCaption(event.getItem());
+    }
+
+    @Subscribe("itemsTable.create")
+    void onItemCreate(ActionPerformedEvent event) {
+        var si = itemsTable.getSingleSelected();
+        if (si == null) si = getRootItem();
+        var parent = si.isMenu() ? si : si.getParent();
+        var index = parent != si ? parent.getChildIndex(si) + 1 : 0;
+        screenBuilders.editor(itemsTable)
+                .newEntity()
+                .withOpenMode(OpenMode.DIALOG)
+                .withParentDataContext(dataContext)
+                .withInitializer(i -> i.setParent(parent))
+                .withTransformation(i -> {
+                    parent.addChild(i, index);
+                    return i;
+                })
+                .show();
+    }
+
+    @Subscribe("itemsTable.edit")
+    void onItemEdit(ActionPerformedEvent event) {
+        screenBuilders.editor(itemsTable)
+                .withOpenMode(OpenMode.DIALOG)
+                .withParentDataContext(dataContext)
+                .show();
+    }
+
+    @Subscribe("itemsTable.remove")
+    void onItemRemove(ActionPerformedEvent event) {
+        removeOperation.builder(itemsTable)
+                .afterActionPerformed(this::afterItemRemove)
+                .remove();
+    }
+
+    void afterItemRemove(AfterActionPerformedEvent<MenuItemEntity> event) {
+        var items = itemsDc.getMutableItems();
+        for (MenuItemEntity item : event.getItems()) {
+            item.getParent().removeChild(item);
+            item.visitItems(items::remove);
+        }
     }
 
     @Subscribe("itemsTable.resetMenu")
