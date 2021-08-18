@@ -27,4 +27,8 @@ public class MenuItemHelper {
         return menuConfig.getItemCaption(mi);
     }
 
+    public void updateItemCaption(MenuItemEntity item) {
+        item.setCaption(getItemCaption(item));
+    }
+
 }

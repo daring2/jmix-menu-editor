@@ -10,8 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-import static org.apache.commons.lang3.ObjectUtils.firstNonNull;
-
 @JmixEntity(name = "menu_MenuItemEntity", annotatedPropertiesOnly = true)
 public class MenuItemEntity {
 
@@ -64,6 +62,10 @@ public class MenuItemEntity {
 
     @JmixProperty
     private String contentXml;
+
+    @InstanceName
+    @JmixProperty
+    private String caption;
 
     public String getId() {
         return id;
@@ -193,10 +195,12 @@ public class MenuItemEntity {
         this.contentXml = contentXml;
     }
 
-    @InstanceName
-    @JmixProperty
     public String getCaption() {
-        return firstNonNull(captionKey, id, "");
+        return caption;
+    }
+
+    public void setCaption(String caption) {
+        this.caption = caption;
     }
 
     public boolean isMenu() {

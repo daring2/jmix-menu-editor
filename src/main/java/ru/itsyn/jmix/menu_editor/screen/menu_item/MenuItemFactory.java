@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import ru.itsyn.jmix.menu_editor.entity.MenuItemEntity;
 import ru.itsyn.jmix.menu_editor.entity.MenuItemType;
 import ru.itsyn.jmix.menu_editor.entity.MenuOpenMode;
+import ru.itsyn.jmix.menu_editor.util.MenuItemHelper;
 
 import javax.inject.Inject;
 import java.util.stream.Collectors;
@@ -24,13 +25,16 @@ public class MenuItemFactory {
 
     @Inject
     Messages messages;
+    @Inject
+    MenuItemHelper menuItemHelper;
 
     public MenuItemEntity createRootItem() {
-        var re = new MenuItemEntity();
-        re.setId(ROOT_ITEM_ID);
-        re.setItemType(MenuItemType.MENU);
-        re.setCaptionKey(messages.getMessage(MESSAGE_PACK, "rootItemCaption"));
-        return re;
+        var e = new MenuItemEntity();
+        e.setId(ROOT_ITEM_ID);
+        e.setItemType(MenuItemType.MENU);
+        e.setCaptionKey(messages.getMessage(MESSAGE_PACK, "rootItemCaption"));
+        menuItemHelper.updateItemCaption(e);
+        return e;
     }
 
     public MenuItemEntity createItem(MenuItem item) {
@@ -60,6 +64,7 @@ public class MenuItemFactory {
                 e.setContentXml(buildContentXml(d));
             }
         }
+        menuItemHelper.updateItemCaption(e);
         return e;
     }
 

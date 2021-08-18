@@ -9,7 +9,8 @@ import org.junit.jupiter.api.Test;
 import ru.itsyn.jmix.menu_editor.entity.MenuItemType;
 import ru.itsyn.jmix.menu_editor.entity.MenuOpenMode;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -24,6 +25,7 @@ class MenuItemFactoryTest {
     public void init() {
         factory = new MenuItemFactory();
         factory.messages = mock(Messages.class);
+        factory.menuItemHelper = new TestMenuItemHelper();
     }
 
     @Test
@@ -35,6 +37,7 @@ class MenuItemFactoryTest {
         assertEquals(ROOT_ITEM_ID, ri.getId());
         assertEquals(MenuItemType.MENU, ri.getItemType());
         assertEquals("root caption", ri.getCaptionKey());
+        assertEquals("rootItem.caption", ri.getCaption());
     }
 
     @Test
@@ -87,6 +90,7 @@ class MenuItemFactoryTest {
     void assertMenuItem(MenuItem mi, MenuItemType itemType) {
         var item = factory.createItem(mi);
         assertEquals(itemType, item.getItemType());
+        assertEquals(item.getId() + ".caption", item.getCaption());
         if (itemType != MenuItemType.SEPARATOR) {
             assertEquals("caption1", item.getCaptionKey());
             assertEquals("desc1", item.getDescription());
