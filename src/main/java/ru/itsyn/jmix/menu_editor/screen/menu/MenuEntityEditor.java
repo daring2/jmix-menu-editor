@@ -27,7 +27,7 @@ import io.jmix.ui.screen.*;
 import ru.itsyn.jmix.menu_editor.entity.MenuEntity;
 import ru.itsyn.jmix.menu_editor.entity.MenuItemEntity;
 import ru.itsyn.jmix.menu_editor.screen.menu_item.MenuConfigBuilder;
-import ru.itsyn.jmix.menu_editor.screen.menu_item.MenuItemHelper;
+import ru.itsyn.jmix.menu_editor.util.MenuItemHelper;
 import ru.itsyn.jmix.menu_editor.screen.menu_item.MenuItemLoader;
 import ru.itsyn.jmix.menu_editor.util.DialogHelper;
 

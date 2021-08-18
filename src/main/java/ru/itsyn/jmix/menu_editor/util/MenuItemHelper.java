@@ -1,4 +1,4 @@
-package ru.itsyn.jmix.menu_editor.screen.menu_item;
+package ru.itsyn.jmix.menu_editor.util;
 
 import io.jmix.ui.menu.MenuConfig;
 import io.jmix.ui.menu.MenuItem;
