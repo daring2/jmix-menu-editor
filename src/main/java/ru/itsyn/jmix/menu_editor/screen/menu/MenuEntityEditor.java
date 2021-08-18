@@ -17,6 +17,7 @@ import io.jmix.ui.component.DataGrid.ColumnGeneratorEvent;
 import io.jmix.ui.component.TreeDataGrid;
 import io.jmix.ui.model.CollectionContainer;
 import io.jmix.ui.model.CollectionLoader;
+import io.jmix.ui.model.DataContext;
 import io.jmix.ui.model.InstanceContainer.ItemChangeEvent;
 import io.jmix.ui.screen.*;
 import ru.itsyn.jmix.menu_editor.entity.MenuEntity;
@@ -28,6 +29,7 @@ import ru.itsyn.jmix.menu_editor.util.DialogHelper;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.HashSet;
 import java.util.List;
 
 import static com.vaadin.shared.ui.dnd.DragSourceState.DATA_TYPE_TEXT_PLAIN;
@@ -50,6 +52,8 @@ public class MenuEntityEditor extends StandardEditor<MenuEntity> {
     MenuItemHelper menuItemHelper;
     @Inject
     MenuConfigBuilder menuConfigBuilder;
+    @Inject
+    DataContext dataContext;
     @Inject
     CollectionContainer<MenuItemEntity> itemsDc;
     @Inject
@@ -153,6 +157,18 @@ public class MenuEntityEditor extends StandardEditor<MenuEntity> {
         var rootItem = menuItemLoader.loadDefaultMenu();
         updateMenuConfig(rootItem);
         itemsDl.load();
+    }
+
+    @Subscribe
+    public void onBeforeCommitChanges(BeforeCommitChangesEvent event) {
+        var rootItem = getRootItem();
+        if (rootItem == null) return;
+        updateMenuConfig(rootItem);
+        // optimization
+        new HashSet<>(dataContext.getModified()).forEach(e -> {
+            if (e instanceof MenuItemEntity)
+                dataContext.evict(e);
+        });
     }
 
     protected void updateMenuConfig(MenuItemEntity rootItem) {
