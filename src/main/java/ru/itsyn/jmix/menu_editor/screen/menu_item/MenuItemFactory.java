@@ -4,13 +4,13 @@ import io.jmix.core.Messages;
 import io.jmix.ui.menu.MenuItem;
 import org.apache.commons.lang3.StringUtils;
 import org.dom4j.Element;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.itsyn.jmix.menu_editor.entity.MenuItemEntity;
 import ru.itsyn.jmix.menu_editor.entity.MenuItemType;
 import ru.itsyn.jmix.menu_editor.entity.MenuOpenMode;
 import ru.itsyn.jmix.menu_editor.util.MenuItemHelper;
 
-import javax.inject.Inject;
 import java.util.stream.Collectors;
 
 import static io.jmix.core.UuidProvider.createUuid;
@@ -23,9 +23,9 @@ public class MenuItemFactory {
     public static final String ROOT_ITEM_ID = "rootItem";
     public static final String MESSAGE_PACK = MenuItemFactory.class.getPackageName();
 
-    @Inject
+    @Autowired
     Messages messages;
-    @Inject
+    @Autowired
     MenuItemHelper menuItemHelper;
 
     public MenuItemEntity createRootItem() {

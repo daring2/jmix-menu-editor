@@ -3,6 +3,7 @@ package ru.itsyn.jmix.menu_editor.screen.menu_item;
 import io.jmix.core.common.util.Dom4j;
 import io.jmix.ui.menu.MenuConfig;
 import io.jmix.ui.menu.MenuItem;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -10,7 +11,6 @@ import ru.itsyn.jmix.menu_editor.entity.MenuEntity;
 import ru.itsyn.jmix.menu_editor.entity.MenuItemEntity;
 
 import javax.annotation.PostConstruct;
-import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,9 +20,9 @@ import static org.springframework.beans.factory.config.ConfigurableBeanFactory.S
 @Scope(SCOPE_PROTOTYPE)
 public class MenuItemLoader {
 
-    @Inject
+    @Autowired
     ApplicationContext appContext;
-    @Inject
+    @Autowired
     MenuItemFactory menuItemFactory;
 
     ConfigLoader configLoader = new ConfigLoader();

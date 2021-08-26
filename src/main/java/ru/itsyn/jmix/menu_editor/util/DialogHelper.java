@@ -6,18 +6,18 @@ import io.jmix.ui.Dialogs;
 import io.jmix.ui.action.Action.ActionPerformedEvent;
 import io.jmix.ui.action.BaseAction;
 import io.jmix.ui.action.DialogAction;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.inject.Inject;
 import java.util.function.Consumer;
 
 @UIScope
 @Component("menu_DialogHelper")
 public class DialogHelper {
 
-    @Inject
+    @Autowired
     Messages messages;
-    @Inject
+    @Autowired
     Dialogs dialogs;
 
     public Dialogs.OptionDialogBuilder newConfirmationDialog(

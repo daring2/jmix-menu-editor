@@ -9,23 +9,21 @@ import ru.itsyn.jmix.menu_editor.entity.MenuItemEntity;
 import ru.itsyn.jmix.menu_editor.entity.MenuItemType;
 import ru.itsyn.jmix.menu_editor.util.MenuItemHelper;
 
-import javax.inject.Inject;
-
 @UiController("menu_MenuItemEntity.edit")
 @UiDescriptor("menu-item-editor.xml")
 @EditedEntityContainer("editDc")
 public class MenuItemEditor extends StandardEditor<MenuItemEntity> {
 
     @Autowired
-    private MenuItemHelper menuItemHelper;
+    MenuItemHelper menuItemHelper;
     @Autowired
-    private TextField<String> idField;
+    TextField<String> idField;
     @Autowired
-    private TextField<String> captionKeyField;
-    @Inject
-    private ComboBox<MenuItemType> itemTypeField;
-    @Inject
-    private CheckBox expandedField;
+    TextField<String> captionKeyField;
+    @Autowired
+    ComboBox<MenuItemType> itemTypeField;
+    @Autowired
+    CheckBox expandedField;
 
     @Subscribe
     public void onInit(InitEvent event) {

@@ -2,17 +2,17 @@ package ru.itsyn.jmix.menu_editor.util;
 
 import io.jmix.ui.menu.MenuConfig;
 import io.jmix.ui.menu.MenuItem;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.itsyn.jmix.menu_editor.entity.MenuItemEntity;
 
-import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
 @Component("menu_MenuItemHelper")
 public class MenuItemHelper {
 
-    @Inject
+    @Autowired
     MenuConfig menuConfig;
 
     public List<MenuItemEntity> buildItemList(MenuItemEntity rootItem) {

@@ -24,6 +24,7 @@ import io.jmix.ui.model.DataContext;
 import io.jmix.ui.model.InstanceContainer.ItemChangeEvent;
 import io.jmix.ui.navigation.Route;
 import io.jmix.ui.screen.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import ru.itsyn.jmix.menu_editor.entity.MenuEntity;
 import ru.itsyn.jmix.menu_editor.entity.MenuItemEntity;
 import ru.itsyn.jmix.menu_editor.screen.menu_item.MenuConfigBuilder;
@@ -31,7 +32,6 @@ import ru.itsyn.jmix.menu_editor.util.MenuItemHelper;
 import ru.itsyn.jmix.menu_editor.screen.menu_item.MenuItemLoader;
 import ru.itsyn.jmix.menu_editor.util.DialogHelper;
 
-import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.HashSet;
 import java.util.List;
@@ -45,29 +45,29 @@ import static ru.itsyn.jmix.menu_editor.screen.menu_item.MenuItemFactory.ROOT_IT
 @EditedEntityContainer("editDc")
 public class MenuEntityEditor extends StandardEditor<MenuEntity> {
 
-    @Inject
+    @Autowired
     Messages messages;
-    @Inject
+    @Autowired
     Notifications notifications;
-    @Inject
+    @Autowired
     ScreenBuilders screenBuilders;
-    @Inject
+    @Autowired
     RemoveOperation removeOperation;
-    @Inject
+    @Autowired
     DialogHelper dialogHelper;
-    @Inject
+    @Autowired
     MenuItemLoader menuItemLoader;
-    @Inject
+    @Autowired
     MenuItemHelper menuItemHelper;
-    @Inject
+    @Autowired
     MenuConfigBuilder menuConfigBuilder;
-    @Inject
+    @Autowired
     DataContext dataContext;
-    @Inject
+    @Autowired
     CollectionContainer<MenuItemEntity> itemsDc;
-    @Inject
+    @Autowired
     CollectionLoader<MenuItemEntity> itemsDl;
-    @Inject
+    @Autowired
     TreeDataGrid<MenuItemEntity> itemsTable;
     @Named("itemsTable.remove")
     RemoveAction<MenuItemEntity> itemRemoveAction;
