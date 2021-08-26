@@ -74,6 +74,9 @@ public class MenuEntity {
     @Lob
     private String config;
 
+    @Column(name = "ROLE_CODE")
+    private String roleCode;
+
     public Date getDeletedDate() {
         return deletedDate;
     }
@@ -176,6 +179,14 @@ public class MenuEntity {
 
     public void setId(UUID id) {
         this.id = id;
+    }
+
+    public String getRoleCode() {
+        return roleCode;
+    }
+
+    public void setRoleCode(String roleCode) {
+        this.roleCode = roleCode;
     }
 
 }
