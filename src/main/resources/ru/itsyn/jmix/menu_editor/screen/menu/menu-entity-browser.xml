@@ -37,6 +37,7 @@
                 <action id="edit" type="edit"/>
                 <action id="copy" caption="msg://copy" icon="COPY" trackSelection="true"/>
                 <action id="remove" type="remove"/>
+                <action id="apply" caption="msg://apply"/>
             </actions>
             <columns>
                 <column id="name"/>
@@ -50,6 +51,7 @@
                 <button id="editBtn" action="table.edit"/>
                 <button id="copyBtn" action="table.copy"/>
                 <button id="removeBtn" action="table.remove"/>
+                <button id="applyBtn" action="table.apply"/>
             </buttonsPanel>
         </table>
         <hbox id="lookupActions" spacing="true" visible="false">

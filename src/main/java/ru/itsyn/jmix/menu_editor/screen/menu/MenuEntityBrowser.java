@@ -9,6 +9,7 @@ import io.jmix.ui.navigation.Route;
 import io.jmix.ui.screen.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.itsyn.jmix.menu_editor.entity.MenuEntity;
+import ru.itsyn.jmix.menu_editor.util.DialogHelper;
 
 @Route("MenuEntity")
 @UiController("menu_MenuEntity.browse")
@@ -20,6 +21,8 @@ public class MenuEntityBrowser extends StandardLookup<MenuEntity> {
     MetadataTools metadataTools;
     @Autowired
     ScreenBuilders screenBuilders;
+    @Autowired
+    AppMenuManager appMenuManager;
     @Autowired
     Table<MenuEntity> table;
 
@@ -34,6 +37,11 @@ public class MenuEntityBrowser extends StandardLookup<MenuEntity> {
         screenBuilders.editor(table)
                 .newEntity(ce)
                 .show();
+    }
+
+    @Subscribe("table.apply")
+    public void onMenuApply(ActionPerformedEvent event) {
+        appMenuManager.reloadAppMenu();
     }
 
 }
