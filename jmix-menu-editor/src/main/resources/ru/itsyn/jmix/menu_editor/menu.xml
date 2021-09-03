@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<menu-config xmlns="http://jmix.io/schema/ui/menu">
+
+    <menu id="administration">
+        <item screen="menu_MenuEntity.browse" caption="msg://ru.itsyn.jmix.menu_editor.screen.menu/menuEntityBrowser.menu"/>
+    </menu>
+
+</menu-config>

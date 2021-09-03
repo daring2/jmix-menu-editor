@@ -2,20 +2,13 @@
 <project version="4">
   <component name="JmixDataStoreSettingsManager">
     <moduleSettings>
-      <entry key="ru.itsyn.jmix-menu-editor.main">
+      <entry key="jmix-menu-editor-addon.jmix-menu-editor.main">
         <ModuleSettings>
           <option name="dataStoreOptions">
             <map>
               <entry key="main">
                 <value>
-                  <DataStoreSettings>
-                    <option name="generateDdlType" value="CREATE_AND_UPDATE" />
-                    <option name="nameLengthMode" value="POSTGRES" />
-                    <option name="supportedTypes">
-                      <option value="hsql" />
-                      <option value="postgres" />
-                    </option>
-                  </DataStoreSettings>
+                  <DataStoreSettings />
                 </value>
               </entry>
             </map>

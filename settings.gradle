@@ -1,1 +1,4 @@
-rootProject.name = 'jmix-menu-editor'
+rootProject.name = 'jmix-menu-editor-addon'
+
+include 'jmix-menu-editor'
+include 'jmix-menu-editor-starter'
