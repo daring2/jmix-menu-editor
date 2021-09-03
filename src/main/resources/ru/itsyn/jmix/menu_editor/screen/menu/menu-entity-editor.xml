@@ -35,7 +35,7 @@
                         <textField id="nameField" property="name"/>
                         <textField id="codeField" property="code"/>
                         <textField id="priorityField" property="priority"/>
-                        <textField id="roleCodeField" property="roleCode"/>
+                        <comboBox id="roleField" property="roleCode"/>
                         <textArea id="descriptionField" property="description" rows="5"/>
                     </column>
                 </form>

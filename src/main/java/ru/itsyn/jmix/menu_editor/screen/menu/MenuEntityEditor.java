@@ -10,12 +10,15 @@ import com.vaadin.ui.components.grid.TreeGridDropTarget;
 import io.jmix.core.LoadContext;
 import io.jmix.core.Messages;
 import io.jmix.core.common.util.Dom4j;
+import io.jmix.security.model.BaseRole;
+import io.jmix.security.role.ResourceRoleRepository;
 import io.jmix.ui.Notifications;
 import io.jmix.ui.RemoveOperation;
 import io.jmix.ui.RemoveOperation.AfterActionPerformedEvent;
 import io.jmix.ui.ScreenBuilders;
 import io.jmix.ui.action.Action.ActionPerformedEvent;
 import io.jmix.ui.action.list.RemoveAction;
+import io.jmix.ui.component.ComboBox;
 import io.jmix.ui.component.DataGrid.ColumnGeneratorEvent;
 import io.jmix.ui.component.TreeDataGrid;
 import io.jmix.ui.model.CollectionContainer;
@@ -35,6 +38,7 @@ import ru.itsyn.jmix.menu_editor.util.DialogHelper;
 import javax.inject.Named;
 import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.vaadin.shared.ui.dnd.DragSourceState.DATA_TYPE_TEXT_PLAIN;
 import static ru.itsyn.jmix.menu_editor.screen.menu_item.MenuItemFactory.ROOT_ITEM_ID;
@@ -50,6 +54,8 @@ public class MenuEntityEditor extends StandardEditor<MenuEntity> {
     @Autowired
     Notifications notifications;
     @Autowired
+    ResourceRoleRepository roleRepository;
+    @Autowired
     ScreenBuilders screenBuilders;
     @Autowired
     RemoveOperation removeOperation;
@@ -64,6 +70,8 @@ public class MenuEntityEditor extends StandardEditor<MenuEntity> {
     @Autowired
     DataContext dataContext;
     @Autowired
+    ComboBox<String> roleField;
+    @Autowired
     CollectionContainer<MenuItemEntity> itemsDc;
     @Autowired
     CollectionLoader<MenuItemEntity> itemsDl;
@@ -74,8 +82,15 @@ public class MenuEntityEditor extends StandardEditor<MenuEntity> {
 
     @Subscribe
     public void onInit(InitEvent event) {
+        initRoleField();
         initItemDragAndDrop();
         initRemoveItemAction();
+    }
+
+    protected void initRoleField() {
+        var rolNames = roleRepository.getAllRoles().stream()
+                .collect(Collectors.toMap(BaseRole::getCode, BaseRole::getName));
+        roleField.setOptionsMap(rolNames);
     }
 
     protected void initItemDragAndDrop() {
