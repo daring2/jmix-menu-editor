@@ -18,33 +18,33 @@ import javax.sql.DataSource;
 @SpringBootApplication
 public class JmixMenuEditorApplication {
 
-	@Autowired
-	private Environment environment;
+    @Autowired
+    private Environment environment;
 
-	public static void main(String[] args) {
-		SpringApplication.run(JmixMenuEditorApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(JmixMenuEditorApplication.class, args);
+    }
 
-	@Bean
-	@Primary
-	@ConfigurationProperties("main.datasource")
-	DataSourceProperties dataSourceProperties() {
-		return new DataSourceProperties();
-	}
+    @Bean
+    @Primary
+    @ConfigurationProperties("main.datasource")
+    DataSourceProperties dataSourceProperties() {
+        return new DataSourceProperties();
+    }
 
-	@Bean
-	@Primary
-	@ConfigurationProperties("main.datasource.hikari")
-	DataSource dataSource(DataSourceProperties dataSourceProperties) {
-		return dataSourceProperties.initializeDataSourceBuilder().build();
-	}
+    @Bean
+    @Primary
+    @ConfigurationProperties("main.datasource.hikari")
+    DataSource dataSource(DataSourceProperties dataSourceProperties) {
+        return dataSourceProperties.initializeDataSourceBuilder().build();
+    }
 
-	@EventListener
-	public void printApplicationUrl(ApplicationStartedEvent event) {
-		LoggerFactory.getLogger(JmixMenuEditorApplication.class).info("Application started at "
-				+ "http://localhost:"
-				+ environment.getProperty("local.server.port")
-				+ Strings.nullToEmpty(environment.getProperty("server.servlet.context-path")));
-	}
+    @EventListener
+    public void printApplicationUrl(ApplicationStartedEvent event) {
+        LoggerFactory.getLogger(JmixMenuEditorApplication.class).info("" +
+                "Application started at http://localhost:"
+                + environment.getProperty("local.server.port")
+                + Strings.nullToEmpty(environment.getProperty("server.servlet.context-path")));
+    }
 
 }
