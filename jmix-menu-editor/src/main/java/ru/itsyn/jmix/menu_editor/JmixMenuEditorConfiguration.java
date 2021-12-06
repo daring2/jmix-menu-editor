@@ -26,8 +26,7 @@ public class JmixMenuEditorConfiguration {
             ApplicationContext applicationContext,
             AnnotationScanMetadataReaderFactory metadataReaderFactory
     ) {
-        UiControllersConfiguration uiControllers
-                = new UiControllersConfiguration(applicationContext, metadataReaderFactory);
+        var uiControllers = new UiControllersConfiguration(applicationContext, metadataReaderFactory);
         uiControllers.setBasePackages(Collections.singletonList("ru.itsyn.jmix.menu_editor"));
         return uiControllers;
     }
