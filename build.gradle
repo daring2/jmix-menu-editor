@@ -38,6 +38,14 @@ subprojects {
                 from components.java
             }
         }
+        repositories.maven {
+            url = "https://gitlab.com/api/v4/projects/24906229/packages/maven"
+            credentials(HttpHeaderCredentials) {
+                name = 'Private-Token'
+                value = findProperty("its.gitlabToken")
+            }
+            authentication { header(HttpHeaderAuthentication) }
+        }
     }
 
     // remove after https://youtrack.jetbrains.com/issue/IDEA-227215 is fixed
