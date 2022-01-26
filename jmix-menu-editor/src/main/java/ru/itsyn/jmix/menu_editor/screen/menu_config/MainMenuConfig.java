@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Component("menu_MainMenuConfig")
 @Primary
+@Component("menu_MainMenuConfig")
 public class MainMenuConfig extends MenuConfig {
 
     @Autowired

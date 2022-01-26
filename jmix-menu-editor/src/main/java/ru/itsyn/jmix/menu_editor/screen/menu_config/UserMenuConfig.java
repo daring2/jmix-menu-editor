@@ -10,8 +10,8 @@ import ru.itsyn.jmix.menu_editor.entity.MenuEntity;
 
 import javax.annotation.Nullable;
 
-@Component("menu_UserMenuConfig")
 @UIScope
+@Component("menu_UserMenuConfig")
 public class UserMenuConfig extends MenuConfig {
 
     @Autowired
