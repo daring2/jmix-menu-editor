@@ -38,6 +38,13 @@ public class MenuItemEditor extends StandardEditor<MenuItemEntity> {
         });
     }
 
+    @Subscribe
+    public void onBeforeShow(BeforeShowEvent event) {
+        var entity = getEditedEntity();
+        if (entity.getId() != null)
+            idField.setEditable(false);
+    }
+
     protected void updateCaption() {
         menuItemHelper.updateItemCaption(getEditedEntity());
     }
