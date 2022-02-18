@@ -50,6 +50,9 @@ import static ru.itsyn.jmix.menu_editor.screen.menu_item.MenuItemFactory.ROOT_IT
 @EditedEntityContainer("editDc")
 public class MenuEntityEditor extends StandardEditor<MenuEntity> {
 
+    static final String ITEMS_TAB = "itemsTab";
+    static final String CONFIG_TAB = "configTab";
+
     @Autowired
     Messages messages;
     @Autowired
@@ -96,9 +99,9 @@ public class MenuEntityEditor extends StandardEditor<MenuEntity> {
             if (!event.isUserOriginated())
                 return;
             var tabName = event.getSelectedTab().getName();
-            if ("itemsTab".equals(tabName)) {
+            if (ITEMS_TAB.equals(tabName)) {
                 itemsDl.load();
-            } else if ("configTab".equals(tabName)) {
+            } else if (CONFIG_TAB.equals(tabName)) {
                 updateMenuConfig(getRootItem());
             }
         });
@@ -245,7 +248,8 @@ public class MenuEntityEditor extends StandardEditor<MenuEntity> {
     public void onBeforeCommitChanges(BeforeCommitChangesEvent event) {
         var rootItem = getRootItem();
         if (rootItem == null) return;
-        updateMenuConfig(rootItem);
+        if (ITEMS_TAB.equals(tabSheet.getSelectedTab().getName()))
+            updateMenuConfig(rootItem);
         // optimization
         new HashSet<>(dataContext.getModified()).forEach(e -> {
             if (e instanceof MenuItemEntity)
