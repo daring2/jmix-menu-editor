@@ -1,10 +1,7 @@
 archivesBaseName = 'jmix-menu-editor-starter'
 
 jmix {
-    bomVersion = '1.1.0'
-    entitiesEnhancing {
-        enabled = false
-    }
+    entitiesEnhancing.enabled = false
 }
 
 dependencies {

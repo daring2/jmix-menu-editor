@@ -20,6 +20,7 @@ import io.jmix.ui.action.Action.ActionPerformedEvent;
 import io.jmix.ui.action.list.RemoveAction;
 import io.jmix.ui.component.ComboBox;
 import io.jmix.ui.component.DataGrid.ColumnGeneratorEvent;
+import io.jmix.ui.component.TabSheet;
 import io.jmix.ui.component.TreeDataGrid;
 import io.jmix.ui.model.CollectionContainer;
 import io.jmix.ui.model.CollectionLoader;
@@ -70,6 +71,8 @@ public class MenuEntityEditor extends StandardEditor<MenuEntity> {
     @Autowired
     DataContext dataContext;
     @Autowired
+    TabSheet tabSheet;
+    @Autowired
     ComboBox<String> roleField;
     @Autowired
     CollectionContainer<MenuItemEntity> itemsDc;
@@ -82,9 +85,23 @@ public class MenuEntityEditor extends StandardEditor<MenuEntity> {
 
     @Subscribe
     public void onInit(InitEvent event) {
+        initTabSheet();
         initRoleField();
         initItemDragAndDrop();
         initRemoveItemAction();
+    }
+
+    protected void initTabSheet() {
+        tabSheet.addSelectedTabChangeListener(event -> {
+            if (!event.isUserOriginated())
+                return;
+            var tabName = event.getSelectedTab().getName();
+            if ("itemsTab".equals(tabName)) {
+                itemsDl.load();
+            } else if ("configTab".equals(tabName)) {
+                updateMenuConfig(getRootItem());
+            }
+        });
     }
 
     protected void initRoleField() {

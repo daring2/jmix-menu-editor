@@ -70,8 +70,8 @@ public class MenuEntity {
     @Column(name = "DESCRIPTION", length = 2000)
     private String description;
 
-    @Column(name = "CONFIG")
     @Lob
+    @Column(name = "CONFIG")
     private String config;
 
     @Column(name = "ROLE_CODE")
