@@ -14,6 +14,7 @@
     <facets>
         <dataLoadCoordinator auto="true"/>
         <screenSettings id="settingsFacet" auto="true"/>
+        <presentations auto="true"/>
     </facets>
     <actions>
         <action id="windowCommitAndClose" caption="msg:///actions.Ok"
@@ -49,6 +50,14 @@
                 <tabSheet id="tabSheet" width="100%">
                     <tab id="itemsTab" expand="itemsTable" margin="true" spacing="true"
                          caption="msg://itemsTab.caption">
+                        <filter id="itemsFilter" dataLoader="itemsDl" width="100%"
+                                columnsCount="1" collapsed="true">
+                            <properties include="none"/>
+                            <conditions>
+                                <propertyFilter property="caption" operation="CONTAINS"
+                                                caption="msg://ru.itsyn.jmix.menu_editor.entity/MenuItemEntity.caption"/>
+                            </conditions>
+                        </filter>
                         <treeDataGrid id="itemsTable" dataContainer="itemsDc" hierarchyProperty="parent"
                                       width="100%" sortable="false">
                             <actions>
@@ -61,6 +70,16 @@
                                 <!-- <column property="id" collapsed="true"/>-->
                                 <column id="caption" caption="msg://ru.itsyn.jmix.menu_editor.entity/MenuItemEntity.caption"/>
                                 <column property="screen"/>
+                                <column property="captionKey" collapsed="true"/>
+                                <column property="description" collapsed="true"/>
+                                <column property="itemType" collapsed="true"/>
+                                <column property="openMode" collapsed="true"/>
+                                <column property="expanded" collapsed="true"/>
+                                <column property="styleName" collapsed="true"/>
+                                <column property="icon" collapsed="true"/>
+                                <column property="runnableClass" collapsed="true"/>
+                                <column property="bean" collapsed="true"/>
+                                <column property="beanMethod" collapsed="true"/>
                             </columns>
                             <buttonsPanel alwaysVisible="true">
                                 <button action="itemsTable.create"/>

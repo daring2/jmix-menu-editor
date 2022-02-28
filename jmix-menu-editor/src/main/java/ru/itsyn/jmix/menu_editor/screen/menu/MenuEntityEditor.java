@@ -32,6 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ru.itsyn.jmix.menu_editor.entity.MenuEntity;
 import ru.itsyn.jmix.menu_editor.entity.MenuItemEntity;
 import ru.itsyn.jmix.menu_editor.screen.menu_item.MenuConfigBuilder;
+import ru.itsyn.jmix.menu_editor.screen.menu_item.MenuItemFilterHelper;
 import ru.itsyn.jmix.menu_editor.util.MenuItemHelper;
 import ru.itsyn.jmix.menu_editor.screen.menu_item.MenuItemLoader;
 import ru.itsyn.jmix.menu_editor.util.DialogHelper;
@@ -69,6 +70,8 @@ public class MenuEntityEditor extends StandardEditor<MenuEntity> {
     MenuItemLoader menuItemLoader;
     @Autowired
     MenuItemHelper menuItemHelper;
+    @Autowired
+    MenuItemFilterHelper menuItemFilterHelper;
     @Autowired
     MenuConfigBuilder menuConfigBuilder;
     @Autowired
@@ -175,7 +178,8 @@ public class MenuEntityEditor extends StandardEditor<MenuEntity> {
     @Install(to = "itemsDl", target = Target.DATA_LOADER)
     protected List<MenuItemEntity> loadMenuItems(LoadContext<MenuItemEntity> loadContext) {
         var rootItem = menuItemLoader.loadMenu(getEditedEntity());
-        return menuItemHelper.buildItemList(rootItem);
+        var items = menuItemHelper.buildItemList(rootItem);
+        return menuItemFilterHelper.filterItems(items, loadContext);
     }
 
     @Subscribe(id = "itemsDc", target = Target.DATA_CONTAINER)
