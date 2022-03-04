@@ -30,10 +30,9 @@ class MenuItemFactoryTest {
 
     @Test
     public void testCreateRootItem() {
-        var f = factory;
-        when(f.messages.getMessage(MESSAGE_PACK, "rootItemCaption"))
+        when(factory.messages.getMessage(MESSAGE_PACK, "rootItemCaption"))
                 .thenReturn("root caption");
-        var ri = f.createRootItem();
+        var ri = factory.createRootItem();
         assertEquals(ROOT_ITEM_ID, ri.getId());
         assertEquals(MenuItemType.MENU, ri.getItemType());
         assertEquals("root caption", ri.getCaptionKey());
@@ -42,10 +41,9 @@ class MenuItemFactoryTest {
 
     @Test
     public void testCreateItem() {
-        var f = factory;
-        when(f.messages.getMessage(anyString()))
+        when(factory.messages.getMessage(anyString()))
                 .then(i -> i.getArgument(0) + ".message");
-        when(f.messages.getMessage(MenuItemType.SEPARATOR))
+        when(factory.messages.getMessage(MenuItemType.SEPARATOR))
                 .thenReturn("separator caption");
 
         var mi = new MenuItem("mi1");
@@ -129,7 +127,7 @@ class MenuItemFactoryTest {
     }
 
     @Test
-    public void testBuildContentXml() throws Exception{
+    public void testBuildContentXml() throws Exception {
         checkContextXml("<root/>", null);
         checkContextXml("<root><p1/><p2/></root>", "<p1/><p2/>");
         checkContextXml("<root>\n  <p1/>  \n\n  <p2/>\n</root>", "<p1/>\n<p2/>");
