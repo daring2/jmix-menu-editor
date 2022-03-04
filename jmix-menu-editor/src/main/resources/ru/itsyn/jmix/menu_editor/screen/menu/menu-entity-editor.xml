@@ -80,6 +80,10 @@
                                 <column property="runnableClass" collapsed="true"/>
                                 <column property="bean" collapsed="true"/>
                                 <column property="beanMethod" collapsed="true"/>
+                                <column property="createdDate" collapsed="true"/>
+                                <column property="createdBy" collapsed="true"/>
+                                <column property="lastModifiedDate" collapsed="true"/>
+                                <column property="lastModifiedBy" collapsed="true"/>
                             </columns>
                             <buttonsPanel alwaysVisible="true">
                                 <button action="itemsTable.create"/>

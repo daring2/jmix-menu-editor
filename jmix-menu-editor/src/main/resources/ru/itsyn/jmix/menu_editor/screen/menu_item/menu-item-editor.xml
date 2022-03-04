@@ -33,6 +33,7 @@
                 <textField id="beanField" property="bean"/>
                 <checkBox id="expandedField" property="expanded" colspan="2"/>
                 <textField id="styleNameField" property="styleName"/>
+                <textField id="commentField" property="comment" colspan="2"/>
             </column>
             <column width="100%">
                 <comboBox id="itemTypeField" property="itemType"/>

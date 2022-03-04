@@ -8,6 +8,7 @@ import ru.itsyn.jmix.menu_editor.entity.MenuItemEntity;
 import ru.itsyn.jmix.menu_editor.entity.MenuItemType;
 
 import javax.annotation.concurrent.NotThreadSafe;
+import java.util.Date;
 import java.util.List;
 
 import static org.apache.commons.lang3.BooleanUtils.isTrue;
@@ -52,6 +53,11 @@ public class MenuConfigBuilder {
             addAttributeValue(e, "shortcut", item.getShortcut());
             addContentXml(e, item.getContentXml());
         }
+        addAttributeValue(e, "createdDate", item.getCreatedDate());
+        addAttributeValue(e, "createdBy", item.getCreatedBy());
+        addAttributeValue(e, "lastModifiedDate", item.getLastModifiedDate());
+        addAttributeValue(e, "lastModifiedBy", item.getLastModifiedBy());
+        addAttributeValue(e, "comment", item.getComment());
     }
 
     protected String getElementName(MenuItemType itemType) {
@@ -66,8 +72,11 @@ public class MenuConfigBuilder {
 
     protected void addAttributeValue(Element e, String name, Object value) {
         if (value == null) return;
-        if (value instanceof EnumClass<?>)
+        if (value instanceof EnumClass<?>) {
             value = ((EnumClass<?>) value).getId();
+        } else if (value instanceof Date) {
+            value = ((Date) value).toInstant();
+        }
         e.addAttribute(name, value.toString());
     }
 

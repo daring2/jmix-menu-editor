@@ -11,11 +11,12 @@ import ru.itsyn.jmix.menu_editor.entity.MenuItemType;
 import ru.itsyn.jmix.menu_editor.entity.MenuOpenMode;
 import ru.itsyn.jmix.menu_editor.util.MenuItemHelper;
 
+import java.time.Instant;
+import java.util.Date;
 import java.util.stream.Collectors;
 
 import static io.jmix.core.UuidProvider.createUuid;
-import static org.apache.commons.lang3.StringUtils.substringAfter;
-import static org.apache.commons.lang3.StringUtils.substringBeforeLast;
+import static org.apache.commons.lang3.StringUtils.*;
 
 @Component("menu_MenuItemFactory")
 public class MenuItemFactory {
@@ -38,34 +39,41 @@ public class MenuItemFactory {
     }
 
     public MenuItemEntity createItem(MenuItem item) {
-        var e = new MenuItemEntity();
-        e.setId(item.getId());
-        e.setCaptionKey(item.getCaption());
-        e.setDescription(item.getDescription());
-        e.setStyleName(item.getStylename());
-        e.setIcon(item.getIcon());
+        var descriptor = item.getDescriptor();
+        var entity = new MenuItemEntity();
+        entity.setId(item.getId());
+        entity.setCaptionKey(item.getCaption());
+        entity.setDescription(item.getDescription());
+        entity.setStyleName(item.getStylename());
+        entity.setIcon(item.getIcon());
         if (item.isMenu()) {
-            e.setItemType(MenuItemType.MENU);
-            e.setExpanded(item.isExpanded());
+            entity.setItemType(MenuItemType.MENU);
+            entity.setExpanded(item.isExpanded());
         } else if (item.isSeparator()) {
-            e.setItemType(MenuItemType.SEPARATOR);
-            e.setId(buildSeparatorId(item));
-            e.setCaptionKey(messages.getMessage(e.getItemType()));
+            entity.setItemType(MenuItemType.SEPARATOR);
+            entity.setId(buildSeparatorId(item));
+            entity.setCaptionKey(messages.getMessage(entity.getItemType()));
         } else {
-            e.setItemType(MenuItemType.SCREEN);
-            e.setScreen(item.getScreen());
-            e.setRunnableClass(item.getRunnableClass());
-            e.setBean(item.getBean());
-            e.setBeanMethod(item.getBeanMethod());
-            var d = item.getDescriptor();
-            if (d != null) {
-                e.setOpenMode(MenuOpenMode.fromId(d.attributeValue("openType")));
-                e.setShortcut(d.attributeValue("shortcut"));
-                e.setContentXml(buildContentXml(d));
+            entity.setItemType(MenuItemType.SCREEN);
+            entity.setScreen(item.getScreen());
+            entity.setRunnableClass(item.getRunnableClass());
+            entity.setBean(item.getBean());
+            entity.setBeanMethod(item.getBeanMethod());
+            if (descriptor != null) {
+                entity.setOpenMode(MenuOpenMode.fromId(descriptor.attributeValue("openType")));
+                entity.setShortcut(descriptor.attributeValue("shortcut"));
+                entity.setContentXml(buildContentXml(descriptor));
             }
         }
-        menuItemHelper.updateItemCaption(e);
-        return e;
+        if (descriptor != null) {
+            entity.setCreatedDate(parseDate(descriptor, "createdDate"));
+            entity.setCreatedBy(descriptor.attributeValue("createdBy"));
+            entity.setLastModifiedDate(parseDate(descriptor, "lastModifiedDate"));
+            entity.setLastModifiedBy(descriptor.attributeValue("lastModifiedBy"));
+            entity.setComment(descriptor.attributeValue("comment"));
+        }
+        menuItemHelper.updateItemCaption(entity);
+        return entity;
     }
 
     String buildSeparatorId(MenuItem item) {
@@ -75,15 +83,22 @@ public class MenuItemFactory {
         return "separator-" + parent.getChildren().indexOf(item);
     }
 
-    String buildContentXml(Element d) {
-        if (d.content().isEmpty())
+    String buildContentXml(Element descriptor) {
+        if (descriptor.content().isEmpty())
             return null;
-        var xml = d.asXML();
+        var xml = descriptor.asXML();
         xml = substringAfter(xml, ">");
         xml = substringBeforeLast(xml, "<");
         return xml.lines().map(String::trim)
                 .filter(StringUtils::isNotBlank)
                 .collect(Collectors.joining("\n"));
+    }
+
+    Date parseDate(Element descriptor, String attribute) {
+        var value = descriptor.attributeValue(attribute);
+        if (isBlank(value))
+            return null;
+        return Date.from(Instant.parse(value));
     }
 
 }

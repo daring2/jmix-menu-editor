@@ -40,10 +40,15 @@
                 <action id="apply" caption="msg://apply"/>
             </actions>
             <columns>
+                <column id="id" collapsed="true"/>
                 <column id="name"/>
                 <column id="code"/>
                 <column id="priority"/>
                 <column id="description"/>
+                <column id="createdDate" collapsed="true"/>
+                <column id="createdBy" collapsed="true"/>
+                <column id="lastModifiedDate" collapsed="true"/>
+                <column id="lastModifiedBy" collapsed="true"/>
             </columns>
             <simplePagination/>
             <buttonsPanel id="buttonsPanel" alwaysVisible="true">

@@ -1,5 +1,7 @@
 package ru.itsyn.jmix.menu_editor.screen.menu_item;
 
+import io.jmix.core.TimeSource;
+import io.jmix.core.security.CurrentAuthentication;
 import io.jmix.ui.component.CheckBox;
 import io.jmix.ui.component.ComboBox;
 import io.jmix.ui.component.TextField;
@@ -14,6 +16,10 @@ import ru.itsyn.jmix.menu_editor.util.MenuItemHelper;
 @EditedEntityContainer("editDc")
 public class MenuItemEditor extends StandardEditor<MenuItemEntity> {
 
+    @Autowired
+    TimeSource timeSource;
+    @Autowired
+    CurrentAuthentication currentAuthentication;
     @Autowired
     MenuItemHelper menuItemHelper;
     @Autowired
@@ -39,6 +45,13 @@ public class MenuItemEditor extends StandardEditor<MenuItemEntity> {
     }
 
     @Subscribe
+    public void onInitEntity(InitEntityEvent<MenuItemEntity> event) {
+        var entity = event.getEntity();
+        entity.setCreatedDate(timeSource.currentTimestamp());
+        entity.setCreatedBy(currentAuthentication.getUser().getUsername());
+    }
+
+    @Subscribe
     public void onBeforeShow(BeforeShowEvent event) {
         var entity = getEditedEntity();
         if (entity.getId() != null)
@@ -47,6 +60,13 @@ public class MenuItemEditor extends StandardEditor<MenuItemEntity> {
 
     protected void updateCaption() {
         menuItemHelper.updateItemCaption(getEditedEntity());
+    }
+
+    @Subscribe
+    public void onBeforeCommitChanges(BeforeCommitChangesEvent event) {
+        var entity = getEditedEntity();
+        entity.setLastModifiedDate(timeSource.currentTimestamp());
+        entity.setLastModifiedBy(currentAuthentication.getUser().getUsername());
     }
 
 }

@@ -7,6 +7,7 @@ import io.jmix.core.metamodel.annotation.JmixProperty;
 
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -62,6 +63,21 @@ public class MenuItemEntity {
 
     @JmixProperty
     private String contentXml;
+
+    @JmixProperty
+    private String createdBy;
+
+    @JmixProperty
+    private Date createdDate;
+
+    @JmixProperty
+    private String lastModifiedBy;
+
+    @JmixProperty
+    private Date lastModifiedDate;
+
+    @JmixProperty
+    private String comment;
 
     @InstanceName
     @JmixProperty
@@ -193,6 +209,46 @@ public class MenuItemEntity {
 
     public void setContentXml(String contentXml) {
         this.contentXml = contentXml;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public String getLastModifiedBy() {
+        return lastModifiedBy;
+    }
+
+    public void setLastModifiedBy(String lastModifiedBy) {
+        this.lastModifiedBy = lastModifiedBy;
+    }
+
+    public Date getLastModifiedDate() {
+        return lastModifiedDate;
+    }
+
+    public void setLastModifiedDate(Date lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
     public String getCaption() {
