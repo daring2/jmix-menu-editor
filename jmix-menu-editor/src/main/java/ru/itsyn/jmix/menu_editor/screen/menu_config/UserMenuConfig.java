@@ -18,6 +18,8 @@ public class UserMenuConfig extends MenuConfig {
     DataManager dataManager;
     @Autowired
     CurrentAuthentication currentAuthentication;
+    @Autowired
+    MenuConfigLoader configLoader;
 
     @Override
     protected void init() {
@@ -28,7 +30,7 @@ public class UserMenuConfig extends MenuConfig {
             loadMenuItems(d.getRootElement(), null);
             return;
         }
-        super.init();
+        rootItems = configLoader.loadDefaultConfig();
     }
 
     @Nullable
