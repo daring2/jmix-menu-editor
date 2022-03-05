@@ -39,10 +39,10 @@ subprojects {
             }
         }
         repositories.maven {
-            url = "https://gitlab.com/api/v4/projects/24906229/packages/maven"
+            url = "https://opus-tech.gitlab.yandexcloud.net/api/v4/projects/3/packages/maven"
             credentials(HttpHeaderCredentials) {
                 name = 'Private-Token'
-                value = findProperty("its.gitlabToken")
+                value = findProperty("yc.gitlabToken")
             }
             authentication { header(HttpHeaderAuthentication) }
         }
