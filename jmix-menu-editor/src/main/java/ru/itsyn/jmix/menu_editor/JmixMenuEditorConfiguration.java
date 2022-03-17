@@ -21,7 +21,7 @@ import java.util.Collections;
 @PropertySource(name = "ru.itsyn.jmix.menu_editor", value = "classpath:/ru/itsyn/jmix/menu_editor/module.properties")
 public class JmixMenuEditorConfiguration {
 
-    @Bean("menu_MenuUiControllers")
+    @Bean("menu_JmixMenuEditorUiControllers")
     public UiControllersConfiguration screens(
             ApplicationContext applicationContext,
             AnnotationScanMetadataReaderFactory metadataReaderFactory
