@@ -11,7 +11,7 @@ dependencies {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
     testImplementation 'org.springframework.boot:spring-boot-starter-web'
-    testImplementation 'org.mockito:mockito-core:3.11.2'
+    testImplementation 'org.mockito:mockito-core:4.3.1'
 
     testRuntimeOnly 'org.hsqldb:hsqldb'
 }
