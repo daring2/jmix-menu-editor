@@ -111,9 +111,9 @@ public class MenuEntityEditor extends StandardEditor<MenuEntity> {
     }
 
     protected void initRoleField() {
-        var rolNames = roleRepository.getAllRoles().stream()
+        var roleNames = roleRepository.getAllRoles().stream()
                 .collect(Collectors.toMap(BaseRole::getName, BaseRole::getCode));
-        roleField.setOptionsMap(rolNames);
+        roleField.setOptionsMap(roleNames);
     }
 
     protected void initItemDragAndDrop() {
