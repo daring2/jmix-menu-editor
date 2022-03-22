@@ -1,13 +1,16 @@
 package ru.itsyn.jmix.menu_editor.util;
 
 import io.jmix.ui.menu.MenuConfig;
+import io.jmix.ui.menu.MenuItem;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.itsyn.jmix.menu_editor.entity.MenuItemEntity;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class MenuItemHelperTest {
 
@@ -21,20 +24,33 @@ class MenuItemHelperTest {
 
     @Test
     public void testBuildItemList() {
-        var ri = newItem("root", null);
-        var i1 = newItem("i1", ri);
-        var i2 = newItem("i2", ri);
-        assertEquals(newArrayList(ri, i1, i2), helper.buildItemList(ri));
+        var rootItem = newItem("root", null);
+        var item1 = newItem("item1", rootItem);
+        var item2 = newItem("item2", rootItem);
+        assertEquals(newArrayList(rootItem, item1, item2), helper.buildItemList(rootItem));
+    }
+
+    @Test
+    public void testGetItemCaption() {
+        when(helper.menuConfig.getItemCaption(any(MenuItem.class)))
+                .thenAnswer(i -> {
+                    var item = i.getArgument(0, MenuItem.class);
+                    assertEquals("key1", item.getCaption());
+                    return "caption1";
+                });
+        var item1 = newItem("item1", null);
+        item1.setCaptionKey("key1");
+        assertEquals("caption1", helper.getItemCaption(item1));
     }
 
     MenuItemEntity newItem(String id, MenuItemEntity parent) {
-        var i = new MenuItemEntity();
-        i.setId(id);
+        var item = new MenuItemEntity();
+        item.setId(id);
         if (parent != null) {
-            i.setParent(parent);
-            parent.getChildren().add(i);
+            item.setParent(parent);
+            parent.getChildren().add(item);
         }
-        return i;
+        return item;
     }
 
 }
