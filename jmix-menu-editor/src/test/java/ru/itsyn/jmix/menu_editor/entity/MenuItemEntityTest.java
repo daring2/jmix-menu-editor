@@ -3,83 +3,87 @@ package ru.itsyn.jmix.menu_editor.entity;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import static com.google.common.collect.Lists.newArrayList;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class MenuItemEntityTest {
 
     @Test
     public void testHasAncestor() {
-        var ri = newItem("root", null);
-        assertFalse(ri.hasAncestor(ri));
-        var i1 = newItem("i1", ri);
-        assertFalse(ri.hasAncestor(i1));
-        assertTrue(i1.hasAncestor(ri));
-        var i2 = newItem("i2", ri);
-        assertTrue(i2.hasAncestor(ri));
-        assertFalse(i2.hasAncestor(i1));
-        var i21 = newItem("i21", i2);
-        assertTrue(i21.hasAncestor(i2));
-        assertTrue(i21.hasAncestor(ri));
+        var rootItem = newItem("root", null);
+        assertFalse(rootItem.hasAncestor(rootItem));
+        var item1 = newItem("item1", rootItem);
+        assertFalse(rootItem.hasAncestor(item1));
+        assertTrue(item1.hasAncestor(rootItem));
+        var item2 = newItem("item2", rootItem);
+        assertTrue(item2.hasAncestor(rootItem));
+        assertFalse(item2.hasAncestor(item1));
+        var item21 = newItem("item21", item2);
+        assertTrue(item21.hasAncestor(item2));
+        assertTrue(item21.hasAncestor(rootItem));
     }
 
     @Test
     public void testVisitItems() {
-        var ri = newItem("root", null);
-        var i1 = newItem("i1", ri);
-        var i2 = newItem("i2", ri);
-        var i21 = newItem("i21", i2);
+        var rootItem = newItem("root", null);
+        var item1 = newItem("item1", rootItem);
+        var item2 = newItem("item2", rootItem);
+        var item21 = newItem("item21", item2);
         var items = new ArrayList<MenuItemEntity>();
-        ri.visitItems(items::add);
-        assertEquals(newArrayList(ri, i1, i2, i21), items);
+        rootItem.visitItems(items::add);
+        assertThat(items, equalTo(List.of(rootItem, item1, item2, item21)));
     }
 
     @Test
     public void testAddChild() {
-        var pi1 = newItem("pi1", null);
-        var i1 = newItem("i1", pi1);
-        var i2 = newItem("i2", null);
-        assertEquals(newArrayList(i1), pi1.getChildren());
-        assertNull(i2.getParent());
+        var parentItem1 = newItem("parentItem1", null);
+        var item1 = newItem("item1", parentItem1);
+        var item2 = newItem("item2", null);
+        assertThat(parentItem1.getChildren(), equalTo(List.of(item1)));
+        assertThat(item2.getParent(), nullValue());
 
-        pi1.addChild(i2, -1);
-        assertEquals(newArrayList(i1, i2), pi1.getChildren());
-        assertEquals(pi1, i2.getParent());
+        parentItem1.addChild(item2, -1);
+        assertThat(parentItem1.getChildren(), equalTo(List.of(item1, item2)));
+        assertThat(item2.getParent(), equalTo(parentItem1));
 
-        var i3 = newItem("i3", null);
-        pi1.addChild(i3, 0);
-        assertEquals(newArrayList(i3, i1, i2), pi1.getChildren());
-        assertEquals(pi1, i3.getParent());
+        var item3 = newItem("item3", null);
+        parentItem1.addChild(item3, 0);
+        assertThat(parentItem1.getChildren(), equalTo(List.of(item3, item1, item2)));
+        assertThat(item3.getParent(), equalTo(parentItem1));
 
-        var pi2 = newItem("pi2", null);
-        pi2.addChild(i3, 0);
-        assertEquals(newArrayList(i1, i2), pi1.getChildren());
-        assertEquals(newArrayList(i3), pi2.getChildren());
-        assertEquals(pi2, i3.getParent());
+        var parentItem2 = newItem("parentItem2", null);
+        parentItem2.addChild(item3, 0);
+        assertThat(parentItem1.getChildren(), equalTo(List.of(item1, item2)));
+        assertThat(parentItem2.getChildren(), equalTo(List.of(item3)));
+        assertThat(item3.getParent(), equalTo(parentItem2));
     }
 
     @Test
     public void testRemoveChild() {
-        var pi1 = newItem("pi1", null);
-        var i1 = newItem("i1", pi1);
-        var i2 = newItem("i2", pi1);
-        assertEquals(newArrayList(i1, i2), pi1.getChildren());
-        assertEquals(pi1, i2.getParent());
+        var parentItem1 = newItem("parentItem1", null);
+        var item1 = newItem("item1", parentItem1);
+        var item2 = newItem("item2", parentItem1);
+        assertThat(parentItem1.getChildren(), equalTo(List.of(item1, item2)));
+        assertThat(item2.getParent(), equalTo(parentItem1));
 
-        pi1.removeChild(i2);
-        assertEquals(newArrayList(i1), pi1.getChildren());
-        assertNull(i2.getParent());
+        parentItem1.removeChild(item2);
+        assertThat(parentItem1.getChildren(), equalTo(List.of(item1)));
+        assertThat(item2.getParent(), nullValue());
     }
 
     MenuItemEntity newItem(String id, MenuItemEntity parent) {
-        var i = new MenuItemEntity();
-        i.setId(id);
+        var item = new MenuItemEntity();
+        item.setId(id);
         if (parent != null) {
-            i.setParent(parent);
-            parent.getChildren().add(i);
+            item.setParent(parent);
+            parent.getChildren().add(item);
         }
-        return i;
+        return item;
     }
 
 }
