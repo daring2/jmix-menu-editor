@@ -1,10 +1,5 @@
-buildscript {
-    repositories {
-        gradlePluginPortal()
-    }
-    dependencies {
-        classpath 'io.jmix.gradle:jmix-gradle-plugin:1.4.1'
-    }
+plugins {
+    id 'io.jmix' version '1.4.1' apply false
 }
 
 group = 'ru.itsyn.jmix'
