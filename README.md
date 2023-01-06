@@ -11,8 +11,8 @@ according [the platform documentation](https://docs.jmix.io/jmix/studio/marketpl
 The latest version is: [0.8.3](TODO)
 
 ## Usage
-Menus can be created and edited in "Main menus" screen in Administration menu. Menu attributes (name, description, etc) and items can be changed in "Menu editor" screen. Items can be reordered
-using Drag & Drop function.
+Menus can be created and edited in the "Main menus" screen in the Administration menu. Menu attributes (name, description, etc)
+and items can be changed in the "Menu editor" screen. Items can be reordered using Drag & Drop function.
 
 ![image](https://user-images.githubusercontent.com/11490702/211078842-3d3eba44-fb3a-4a4d-a98f-54ef3dcf8b95.png)
 
@@ -20,8 +20,8 @@ using Drag & Drop function.
 
 ![image](https://user-images.githubusercontent.com/11490702/211079299-80e010db-22ae-46fd-8e6e-7fcc36c28843.png)
 
-Reset action in "Menu editor" screen restores menu items from the default menu `menu.xml`.
+The Reset action in the "Menu editor" screen restores menu items from the default menu `menu.xml`.
 
-The menu can be assigned to a user role using Role attribute. After that it is applied for all users
-that have this role. If multiple menus via different roles are applied to the user the menu with
-the highest priority is used.
+The menu can be assigned to a user role using the "Role code" attribute. After that it is applied for all users
+that have this role. If multiple menus are applied via different roles to the user the menu with
+the highest Priority attribute is used.
