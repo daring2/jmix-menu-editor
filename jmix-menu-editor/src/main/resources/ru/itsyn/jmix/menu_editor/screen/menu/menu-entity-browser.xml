@@ -43,6 +43,7 @@
                 <column id="id" collapsed="true"/>
                 <column id="name"/>
                 <column id="code"/>
+                <column id="roleCode"/>
                 <column id="priority"/>
                 <column id="description"/>
                 <column id="createdDate" collapsed="true"/>
