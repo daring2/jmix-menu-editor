@@ -14,7 +14,11 @@ The latest version is: [0.8.3](TODO)
 Menus can be created and edited in "Main menus" screen in Administration menu. Menu attributes (name, description, etc) and items can be changed in "Menu editor" screen. Items can be reordered
 using Drag & Drop function.
 
-TODO screenshots
+![image](https://user-images.githubusercontent.com/11490702/211078842-3d3eba44-fb3a-4a4d-a98f-54ef3dcf8b95.png)
+
+![image](https://user-images.githubusercontent.com/11490702/211079118-cd1b182c-2b75-4c1f-974d-dd84076fb764.png)
+
+![image](https://user-images.githubusercontent.com/11490702/211079299-80e010db-22ae-46fd-8e6e-7fcc36c28843.png)
 
 Reset action in "Menu editor" screen restores menu items from the default menu `menu.xml`.
 
