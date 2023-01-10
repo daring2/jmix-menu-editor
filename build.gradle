@@ -1,5 +1,7 @@
 plugins {
-    id 'io.jmix' version '1.4.1' apply false
+    id 'java-library'
+    id 'maven-publish'
+    id 'io.jmix' version '1.4.2' apply false
 }
 
 group = 'ru.itsyn.jmix'
@@ -15,7 +17,7 @@ subprojects {
     }
 
     jmix {
-        bomVersion = '1.4.1'
+        bomVersion = '1.4.2'
         projectId = 'menu'
     }
 
@@ -25,6 +27,11 @@ subprojects {
 
     java {
         withSourcesJar()
+        withJavadocJar()
+    }
+
+    javadoc {
+        options.addStringOption("sourcepath", "")
     }
 
     publishing {
