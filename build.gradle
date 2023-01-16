@@ -1,6 +1,7 @@
 plugins {
     id 'java-library'
     id 'maven-publish'
+    id 'signing'
     id 'io.jmix' version '1.4.2' apply false
 }
 
@@ -9,6 +10,7 @@ group = 'ru.itsyn.jmix'
 subprojects {
     apply plugin: 'java-library'
     apply plugin: 'maven-publish'
+    apply plugin: 'signing'
     apply plugin: 'io.jmix'
 
     repositories {
@@ -32,6 +34,10 @@ subprojects {
 
     javadoc {
         options.addStringOption("sourcepath", "")
+    }
+
+    signing {
+        sign publishing.publications
     }
 
     publishing {
