@@ -48,6 +48,7 @@ subprojects {
                 pom {
                     name = "io.github.it-syn:${project.archivesBaseName}"
                     description = 'The add-on provides support of multiple main menus in Jmix applications.'
+                    url = 'https://github.com/daring2/jmix-menu-editor'
                     packaging = 'jar'
                     licenses {
                         license {
@@ -58,7 +59,7 @@ subprojects {
                     scm {
                         connection = 'sscm:git:git://github.com/daring2/jmix-menu-editor.git'
                         developerConnection = 'scm:git:ssh://github.com:daring2/jmix-menu-editor.git'
-                        url = "https://github.com/daring2/jmix-menu-editor"
+                        url = 'https://github.com/daring2/jmix-menu-editor'
                     }
                     developers {
                         developer {
