@@ -71,12 +71,11 @@ subprojects {
             }
         }
         repositories.maven {
-            url = 'https://gitlab.vk.opus.tech/api/v4/projects/6/packages/maven'
-            credentials(HttpHeaderCredentials) {
-                name = 'Private-Token'
-                value = findProperty('vc.gitlabToken')
+            url = 'https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/'
+            credentials {
+                username = findProperty('ossrhUsername')
+                password = findProperty('ossrhPassword')
             }
-            authentication { header(HttpHeaderAuthentication) }
         }
     }
 
