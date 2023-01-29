@@ -1,14 +1,16 @@
 plugins {
     id 'java-library'
     id 'maven-publish'
+    id 'signing'
     id 'io.jmix' version '1.4.2' apply false
 }
 
-group = 'ru.itsyn.jmix'
+group = 'ru.it-syn'
 
 subprojects {
     apply plugin: 'java-library'
     apply plugin: 'maven-publish'
+    apply plugin: 'signing'
     apply plugin: 'io.jmix'
 
     repositories {
@@ -32,21 +34,49 @@ subprojects {
 
     javadoc {
         options.addStringOption("sourcepath", "")
+        options.addStringOption("Xdoclint:none", "-quiet")
+    }
+
+    signing {
+        sign publishing.publications
     }
 
     publishing {
         publications {
             maven(MavenPublication) {
                 from components.java
+                pom {
+                    name = "ru.it-syn:${project.archivesBaseName}"
+                    description = 'The add-on provides support of multiple main menus in Jmix applications.'
+                    url = 'https://github.com/daring2/jmix-menu-editor'
+                    packaging = 'jar'
+                    licenses {
+                        license {
+                            name = 'The Apache License, Version 2.0'
+                            url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        }
+                    }
+                    scm {
+                        connection = 'sscm:git:git://github.com/daring2/jmix-menu-editor.git'
+                        developerConnection = 'scm:git:ssh://github.com:daring2/jmix-menu-editor.git'
+                        url = 'https://github.com/daring2/jmix-menu-editor'
+                    }
+                    developers {
+                        developer {
+                            id = 'daring'
+                            name = 'Danila Valikov'
+                            email = 'danila.daring@gmail.com'
+                        }
+                    }
+                }
             }
         }
         repositories.maven {
-            url = 'https://gitlab.vk.opus.tech/api/v4/projects/6/packages/maven'
-            credentials(HttpHeaderCredentials) {
-                name = 'Private-Token'
-                value = findProperty('vc.gitlabToken')
+            url = 'https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/'
+            credentials {
+                username = findProperty('ossrhUsername')
+                password = findProperty('ossrhPassword')
             }
-            authentication { header(HttpHeaderAuthentication) }
         }
     }
 
