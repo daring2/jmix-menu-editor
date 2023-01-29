@@ -5,10 +5,10 @@ The add-on provides support of multiple main menus in Jmix applications. Menus a
 and can be created and edited at runtime using the administration screens.
 
 ## Installation
-Install the add-on using the following coordinates `'io.github.it-syn:jmix-menu-editor-starter:<add-on version>'`
+Install the add-on using the following coordinates `'ru.it-syn:jmix-menu-editor-starter:<add-on version>'`
 according [the platform documentation](https://docs.jmix.io/jmix/studio/marketplace.html).
 
-The latest version is: [0.8.4](https://repo1.maven.org/maven2/io/github/it-syn/jmix-menu-editor/0.8.4/)
+The latest version is: [0.8.4](https://central.sonatype.dev/artifact/ru.it-syn/jmix-menu-editor-starter/0.8.4/)
 
 ## Usage
 Menus can be created and edited in the "Main menus" screen in the Administration menu. Menu attributes (name, description, etc)
