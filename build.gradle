@@ -5,7 +5,7 @@ plugins {
     id 'io.jmix' version '1.4.2' apply false
 }
 
-group = 'ru.it-syn'
+group = 'io.github.it-syn'
 
 subprojects {
     apply plugin: 'java-library'
@@ -46,7 +46,7 @@ subprojects {
             maven(MavenPublication) {
                 from components.java
                 pom {
-                    name = "ru.it-syn:${project.archivesBaseName}"
+                    name = "io.github.it-syn:${project.archivesBaseName}"
                     description = 'The add-on provides support of multiple main menus in Jmix applications.'
                     url = 'https://github.com/daring2/jmix-menu-editor'
                     packaging = 'jar'
