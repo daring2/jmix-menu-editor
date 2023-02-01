@@ -1,4 +1,4 @@
-name: check
+name: Check build
 on:
   push:
     branches: [main]
@@ -7,18 +7,18 @@ on:
 
 jobs:
   build:
-    name: check
+    name: Check build
     runs-on: ubuntu-latest
     steps:
-      - name: checkout
+      - name: Checkout the repository
         uses: actions/checkout@v3
-      - name: setup java
+      - name: Setup Java
         uses: actions/setup-java@v3
         with:
           java-version: '11'
           distribution: 'liberica'
 #          cache: 'gradle'
-      - name: gradle check
+      - name: Run gradle check
         uses: gradle/gradle-build-action@v2
         with:
           arguments: check
