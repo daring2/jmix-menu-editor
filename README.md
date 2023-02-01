@@ -1,4 +1,5 @@
 # jmix-menu-editor
+![build](https://github.com/daring2/jmix-menu-editor/workflows/check/badge.svg)
 
 ## Overview
 The add-on provides support of multiple main menus in Jmix applications. Menus are stored in the database
