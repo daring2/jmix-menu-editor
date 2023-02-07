@@ -10,7 +10,12 @@ Main functions:
 at runtime.
 - allow to use multiple main menus with different structure for different use groups
 
-Note: the add-on doesn't change user permissions so visibility of menu items depends on the assigned permissions. 
+Use cases:
+- administrators need to change the main menu at runtime without development and deployment of a new application version.
+- different user groups need main menus with different structure, these menus must be configurable.
+
+Note: the add-on doesn't change user permissions so visibility of menu items depends on the roles and permissions
+assigned to the user. 
 
 ## Installation
 Install the add-on using the following coordinates `'io.github.it-syn:jmix-menu-editor-starter:<add-on version>'`
