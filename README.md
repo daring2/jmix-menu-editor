@@ -23,6 +23,24 @@ according [the platform documentation](https://docs.jmix.io/jmix/studio/marketpl
 
 The latest version is: [0.8.5](https://central.sonatype.com/artifact/io.github.it-syn/jmix-menu-editor/0.8.5)
 
+## Getting started
+
+Let's consider that we want to change the main menu for the administrators of our application (users with the 
+'Full access' role).
+
+1. Start the application and open the 'Main menus' screen.
+2. Create a new menu (click the 'Create' button).
+3. Specify the menu properties: Name - "admin menu", Role code - "Full Access".
+4. Use the "Reset" action in the right section of the screen to load default menu items from `menu.xml`.
+5. Make some changes to the menu structure. For example:
+    - move or reorder some items using Drag & Drop function;
+    - change item captions (click the "Edit" button and change the "Caption key" property);
+    - remove some items;
+6. Save the changes and close the menu editor.
+7. Click the "Apply" button to apply the changes.
+
+You will see that the main menu has reloaded and contains the changes made earlier.
+
 ## Usage
 Menus can be created and edited in the "Main menus" screen in the Administration menu. Menu attributes (name, description, etc)
 and items can be changed in the "Menu editor" screen. Items can be reordered using Drag & Drop function.
