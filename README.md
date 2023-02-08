@@ -28,16 +28,17 @@ The latest version is: [0.8.5](https://central.sonatype.com/artifact/io.github.i
 Let's consider that we want to change the main menu for the administrators of our application (users with the 
 'Full access' role).
 
-1. Start the application and open the 'Main menus' screen.
-2. Create a new menu (click the 'Create' button).
-3. Specify the menu properties: Name - "admin menu", Role code - "Full Access".
-4. Use the "Reset" action in the right section of the screen to load default menu items from `menu.xml`.
-5. Make some changes to the menu structure. For example:
+1. Start the application and login as administrator.
+2. Open the 'Main menus' screen.
+3. Create a new menu (click the 'Create' button).
+4. Specify the menu properties: Name - "admin menu", Role code - "Full Access".
+5. Use the "Reset" action in the right section of the screen to load default menu items from `menu.xml`.
+6. Make some changes to the menu structure. For example:
     - move or reorder some items using Drag & Drop function;
     - change item captions (click the "Edit" button and change the "Caption key" property);
     - remove some items;
-6. Save the changes and close the menu editor.
-7. Click the "Apply" button to apply the changes.
+7. Save the changes and close the menu editor.
+8. Click the "Apply" button to apply the changes.
 
 You will see that the main menu has reloaded and contains the changes made earlier.
 
