@@ -21,7 +21,12 @@ assigned to the user.
 Install the add-on using the following coordinates `'io.github.it-syn:jmix-menu-editor-starter:<add-on version>'`
 according [the platform documentation](https://docs.jmix.io/jmix/studio/marketplace.html).
 
-The latest version is: [0.8.5](https://central.sonatype.com/artifact/io.github.it-syn/jmix-menu-editor/0.8.5)
+The add-ons versions:
+
+| Jmix Version | Add-on Version                                                                         |
+|--------------|----------------------------------------------------------------------------------------|
+| 1.4.x        | [0.8.5](https://central.sonatype.com/artifact/io.github.it-syn/jmix-menu-editor/0.8.5) |
+| 1.5.x        | [0.8.6](https://central.sonatype.com/artifact/io.github.it-syn/jmix-menu-editor/0.8.6) |
 
 ## Getting started
 
