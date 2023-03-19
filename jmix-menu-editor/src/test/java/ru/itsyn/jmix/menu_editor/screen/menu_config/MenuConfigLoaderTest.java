@@ -18,8 +18,8 @@ class MenuConfigLoaderTest {
         assertEquals(1, items.size());
         var rootItem = items.get(0);
         assertEquals("administration", rootItem.getId());
-        assertEquals(2, rootItem.getChildren().size());
-        var item1 = rootItem.getChildren().get(1);
+        assertEquals(3, rootItem.getChildren().size());
+        var item1 = rootItem.getChildren().get(2);
         assertEquals("menu_MenuEntity.browse", item1.getId());
         assertEquals(item1.getId(), item1.getScreen());
     }
