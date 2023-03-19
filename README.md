@@ -21,7 +21,7 @@ assigned to the user.
 Install the add-on using the following coordinates `'io.github.it-syn:jmix-menu-editor-starter:<add-on version>'`
 according [the platform documentation](https://docs.jmix.io/jmix/studio/marketplace.html).
 
-The add-ons versions:
+The add-on versions:
 
 | Jmix Version | Add-on Version                                                                         |
 |--------------|----------------------------------------------------------------------------------------|
