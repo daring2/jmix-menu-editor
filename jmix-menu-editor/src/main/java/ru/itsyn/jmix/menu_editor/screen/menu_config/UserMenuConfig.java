@@ -1,9 +1,8 @@
 package ru.itsyn.jmix.menu_editor.screen.menu_config;
 
-import com.vaadin.spring.annotation.UIScope;
+import com.vaadin.flow.spring.annotation.UIScope;
 import io.jmix.core.DataManager;
 import io.jmix.core.security.CurrentAuthentication;
-import io.jmix.ui.menu.MenuConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.itsyn.jmix.menu_editor.entity.MenuEntity;
@@ -12,14 +11,18 @@ import javax.annotation.Nullable;
 
 @UIScope
 @Component("menu_UserMenuConfig")
-public class UserMenuConfig extends MenuConfig {
+public class UserMenuConfig extends BaseMenuConfig {
 
     @Autowired
-    DataManager dataManager;
+    protected DataManager dataManager;
     @Autowired
-    CurrentAuthentication currentAuthentication;
+    protected CurrentAuthentication currentAuthentication;
     @Autowired
-    MenuConfigLoader configLoader;
+    protected MenuConfigLoader configLoader;
+
+    public UserMenuConfig(MenuConfigDependencies dependencies) {
+        super(dependencies);
+    }
 
     @Override
     protected void init() {

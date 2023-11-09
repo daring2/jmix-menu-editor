@@ -1,8 +1,8 @@
 package ru.itsyn.jmix.menu_editor.screen.menu_config;
 
 import io.jmix.core.security.CurrentAuthentication;
-import io.jmix.ui.menu.MenuConfig;
-import io.jmix.ui.menu.MenuItem;
+import io.jmix.flowui.menu.MenuConfig;
+import io.jmix.flowui.menu.MenuItem;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
@@ -12,12 +12,16 @@ import java.util.List;
 
 @Primary
 @Component("menu_MainMenuConfig")
-public class MainMenuConfig extends MenuConfig {
+public class MainMenuConfig extends BaseMenuConfig {
 
     @Autowired
-    BeanFactory beanFactory;
+    protected BeanFactory beanFactory;
     @Autowired
-    CurrentAuthentication currentAuthentication;
+    protected CurrentAuthentication currentAuthentication;
+
+    public MainMenuConfig(MenuConfigDependencies dependencies) {
+        super(dependencies);
+    }
 
     @Override
     public List<MenuItem> getRootItems() {

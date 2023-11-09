@@ -1,8 +1,7 @@
 package ru.itsyn.jmix.menu_editor.screen.menu_config;
 
 import io.jmix.core.common.util.Dom4j;
-import io.jmix.ui.menu.MenuConfig;
-import io.jmix.ui.menu.MenuItem;
+import io.jmix.flowui.menu.MenuItem;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -12,7 +11,11 @@ import java.util.List;
 
 @Component("menu_MenuConfigLoader")
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class MenuConfigLoader extends MenuConfig {
+public class MenuConfigLoader extends BaseMenuConfig {
+
+    public MenuConfigLoader(MenuConfigDependencies dependencies) {
+        super(dependencies);
+    }
 
     public List<MenuItem> loadConfig(String xml) {
         rootItems = new ArrayList<>();
