@@ -2,7 +2,7 @@ plugins {
     id 'java-library'
     id 'maven-publish'
     id 'signing'
-    id 'io.jmix' version '1.5.0' apply false
+    id 'io.jmix' version '2.1.0' apply false
 }
 
 group = 'io.github.it-syn'
@@ -14,18 +14,20 @@ subprojects {
     apply plugin: 'io.jmix'
 
     repositories {
+        mavenLocal()
         mavenCentral()
         maven { url 'https://global.repo.jmix.io/repository/public' }
     }
 
     jmix {
-        bomVersion = '1.5.0'
+        bomVersion = '2.1.0'
         projectId = 'menu'
     }
 
     group = rootProject.group
     version = rootProject.version
-    sourceCompatibility = JavaVersion.VERSION_11
+    sourceCompatibility = JavaVersion.VERSION_17
+    sourceCompatibility = JavaVersion.VERSION_17
 
     java {
         withSourcesJar()
