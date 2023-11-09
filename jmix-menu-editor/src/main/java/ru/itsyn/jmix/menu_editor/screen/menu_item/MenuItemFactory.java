@@ -1,7 +1,7 @@
 package ru.itsyn.jmix.menu_editor.screen.menu_item;
 
 import io.jmix.core.Messages;
-import io.jmix.ui.menu.MenuItem;
+import io.jmix.flowui.menu.MenuItem;
 import org.apache.commons.lang3.StringUtils;
 import org.dom4j.Element;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,33 +30,33 @@ public class MenuItemFactory {
     MenuItemHelper menuItemHelper;
 
     public MenuItemEntity createRootItem() {
-        var e = new MenuItemEntity();
-        e.setId(ROOT_ITEM_ID);
-        e.setItemType(MenuItemType.MENU);
-        e.setCaptionKey(messages.getMessage(MESSAGE_PACK, "rootItemCaption"));
-        menuItemHelper.updateItemCaption(e);
-        return e;
+        var entity = new MenuItemEntity();
+        entity.setId(ROOT_ITEM_ID);
+        entity.setItemType(MenuItemType.MENU);
+        entity.setCaptionKey(messages.getMessage(MESSAGE_PACK, "rootItemCaption"));
+        menuItemHelper.updateItemCaption(entity);
+        return entity;
     }
 
     public MenuItemEntity createItem(MenuItem item) {
         var descriptor = item.getDescriptor();
         var entity = new MenuItemEntity();
         entity.setId(item.getId());
-        entity.setCaptionKey(item.getCaption());
+        entity.setCaptionKey(item.getTitle());
         entity.setDescription(item.getDescription());
-        entity.setStyleName(item.getStylename());
+        entity.setStyleName(item.getClassNames());
         entity.setIcon(item.getIcon());
         if (item.isMenu()) {
             entity.setItemType(MenuItemType.MENU);
-            entity.setExpanded(item.isExpanded());
+            entity.setExpanded(item.isOpened());
         } else if (item.isSeparator()) {
             entity.setItemType(MenuItemType.SEPARATOR);
             entity.setId(buildSeparatorId(item));
             entity.setCaptionKey(messages.getMessage(entity.getItemType()));
         } else {
             entity.setItemType(MenuItemType.SCREEN);
-            entity.setScreen(item.getScreen());
-            entity.setRunnableClass(item.getRunnableClass());
+            entity.setScreen(item.getView());
+//            entity.setRunnableClass(item.getRunnableClass());
             entity.setBean(item.getBean());
             entity.setBeanMethod(item.getBeanMethod());
             if (descriptor != null) {

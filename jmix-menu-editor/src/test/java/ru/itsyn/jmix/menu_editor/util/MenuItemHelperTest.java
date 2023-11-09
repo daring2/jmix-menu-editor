@@ -1,13 +1,13 @@
 package ru.itsyn.jmix.menu_editor.util;
 
-import io.jmix.ui.menu.MenuConfig;
-import io.jmix.ui.menu.MenuItem;
+import io.jmix.flowui.menu.MenuConfig;
+import io.jmix.flowui.menu.MenuItem;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.itsyn.jmix.menu_editor.entity.MenuItemEntity;
 
 import static com.google.common.collect.Lists.newArrayList;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -32,10 +32,10 @@ class MenuItemHelperTest {
 
     @Test
     public void testGetItemCaption() {
-        when(helper.menuConfig.getItemCaption(any(MenuItem.class)))
+        when(helper.menuConfig.getItemTitle(any(MenuItem.class)))
                 .thenAnswer(i -> {
                     var item = i.getArgument(0, MenuItem.class);
-                    assertEquals("key1", item.getCaption());
+                    assertEquals("key1", item.getTitle());
                     return "caption1";
                 });
         var item1 = newItem("item1", null);

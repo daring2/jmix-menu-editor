@@ -1,7 +1,7 @@
 package ru.itsyn.jmix.menu_editor.screen.menu_item;
 
 import io.jmix.core.Messages;
-import io.jmix.ui.menu.MenuItem;
+import io.jmix.flowui.menu.MenuItem;
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
 import org.junit.jupiter.api.BeforeEach;
@@ -47,13 +47,13 @@ class MenuItemFactoryTest {
                 .thenReturn("separator caption");
 
         var mi = new MenuItem("mi1");
-        mi.setCaption("caption1");
+        mi.setTitle("caption1");
         mi.setDescription("desc1");
-        mi.setStylename("style1");
+        mi.setClassNames("style1");
         mi.setIcon("icon1");
-        mi.setExpanded(true);
-        mi.setScreen("screen1");
-        mi.setRunnableClass("runnableClass");
+        mi.setOpened(true);
+        mi.setView("screen1");
+//        mi.setRunnableClass("runnableClass");
         mi.setBean("bean1");
         mi.setBeanMethod("beanMethod1");
 
@@ -106,19 +106,19 @@ class MenuItemFactoryTest {
             }
         } if (itemType == MenuItemType.SCREEN) {
             assertEquals("screen1", item.getScreen());
-            assertEquals("runnableClass", item.getRunnableClass());
+//            assertEquals("runnableClass", item.getRunnableClass());
             assertEquals("bean1", item.getBean());
             assertEquals("beanMethod1", item.getBeanMethod());
             assertNull(item.getExpanded());
-            var d = mi.getDescriptor();
-            if (d != null) {
+            var descriptor = mi.getDescriptor();
+            if (descriptor != null) {
                 assertEquals(MenuOpenMode.NEW_TAB, item.getOpenMode());
                 assertEquals("shortcut1", item.getShortcut());
             } else {
                 assertNull(item.getOpenMode());
                 assertNull(item.getShortcut());
             }
-            if (d != null && !d.content().isEmpty()) {
+            if (descriptor != null && !descriptor.content().isEmpty()) {
                 assertEquals("<param name=\"p1\"/><param name=\"p2\"/>", item.getContentXml());
             } else {
                 assertNull(item.getContentXml());

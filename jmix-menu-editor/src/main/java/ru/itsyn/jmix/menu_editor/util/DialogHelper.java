@@ -1,11 +1,11 @@
 package ru.itsyn.jmix.menu_editor.util;
 
-import com.vaadin.spring.annotation.UIScope;
+import com.vaadin.flow.spring.annotation.UIScope;
 import io.jmix.core.Messages;
-import io.jmix.ui.Dialogs;
-import io.jmix.ui.action.Action.ActionPerformedEvent;
-import io.jmix.ui.action.BaseAction;
-import io.jmix.ui.action.DialogAction;
+import io.jmix.flowui.Dialogs;
+import io.jmix.flowui.action.DialogAction;
+import io.jmix.flowui.kit.action.ActionPerformedEvent;
+import io.jmix.flowui.kit.action.BaseAction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -30,8 +30,8 @@ public class DialogHelper {
                 new DialogAction(DialogAction.Type.CANCEL)
         };
         return dialogs.createOptionDialog()
-                .withCaption(caption)
-                .withMessage(message)
+                .withHeader(caption)
+                .withText(message)
                 .withActions(actions);
     }
 

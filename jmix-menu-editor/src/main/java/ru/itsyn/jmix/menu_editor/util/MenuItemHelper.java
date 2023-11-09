@@ -1,7 +1,7 @@
 package ru.itsyn.jmix.menu_editor.util;
 
-import io.jmix.ui.menu.MenuConfig;
-import io.jmix.ui.menu.MenuItem;
+import io.jmix.flowui.menu.MenuConfig;
+import io.jmix.flowui.menu.MenuItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.itsyn.jmix.menu_editor.entity.MenuItemEntity;
@@ -23,8 +23,8 @@ public class MenuItemHelper {
 
     public String getItemCaption(MenuItemEntity item) {
         var mi = new MenuItem(item.getId());
-        mi.setCaption(item.getCaptionKey());
-        return menuConfig.getItemCaption(mi);
+        mi.setTitle(item.getCaptionKey());
+        return menuConfig.getItemTitle(mi);
     }
 
     public void updateItemCaption(MenuItemEntity item) {

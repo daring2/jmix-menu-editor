@@ -1,6 +1,6 @@
 package ru.itsyn.jmix.menu_editor.screen.menu_item;
 
-import io.jmix.core.metamodel.datatype.impl.EnumClass;
+import io.jmix.core.metamodel.datatype.EnumClass;
 import org.dom4j.*;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -20,7 +20,7 @@ import static org.springframework.beans.factory.config.ConfigurableBeanFactory.S
 @NotThreadSafe
 public class MenuConfigBuilder {
 
-    public static final String MENU_NAMESPACE = "http://jmix.io/schema/ui/menu";
+    public static final String MENU_NAMESPACE = "http://jmix.io/schema/flowui/menu";
 
     public Document buildMenuConfig(List<MenuItemEntity> items) {
         var doc = DocumentHelper.createDocument();
