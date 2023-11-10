@@ -1,42 +1,43 @@
 package ru.itsyn.jmix.menu_editor.screen.menu;
 
+import com.vaadin.flow.router.Route;
 import io.jmix.core.MetadataTools;
 import io.jmix.core.UuidProvider;
-import io.jmix.ui.ScreenBuilders;
-import io.jmix.ui.action.Action.ActionPerformedEvent;
-import io.jmix.ui.component.Table;
-import io.jmix.ui.navigation.Route;
-import io.jmix.ui.screen.*;
+import io.jmix.flowui.DialogWindows;
+import io.jmix.flowui.component.grid.DataGrid;
+import io.jmix.flowui.kit.action.ActionPerformedEvent;
+import io.jmix.flowui.view.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.itsyn.jmix.menu_editor.entity.MenuEntity;
-import ru.itsyn.jmix.menu_editor.util.DialogHelper;
 
-@Route("MenuEntity")
-@UiController("menu_MenuEntity.browse")
-@UiDescriptor("menu-entity-browser.xml")
+@Route(value = "MenuEntity", layout = DefaultMainViewParent.class)
+@ViewController("menu_MenuEntity.list")
+@ViewDescriptor("menu-entity-browser.xml")
 @LookupComponent("table")
-public class MenuEntityBrowser extends StandardLookup<MenuEntity> {
+@DialogMode(width = "1024px", height = "768px", resizable = true)
+public class MenuEntityBrowser extends StandardListView<MenuEntity> {
 
     @Autowired
-    MetadataTools metadataTools;
+    protected MetadataTools metadataTools;
     @Autowired
-    ScreenBuilders screenBuilders;
+    protected DialogWindows dialogWindows;
     @Autowired
-    AppMenuManager appMenuManager;
-    @Autowired
-    Table<MenuEntity> table;
+    protected AppMenuManager appMenuManager;
+
+    @ViewComponent
+    protected DataGrid<MenuEntity> table;
 
     @Subscribe("table.copy")
     public void onMenuCopy(ActionPerformedEvent event) {
-        var entity = table.getSingleSelected();
+        var entity = table.getSingleSelectedItem();
         if (entity == null)
             return;
         var ce = metadataTools.copy(entity);
         ce.setId(UuidProvider.createUuid());
         ce.setName(entity.getName() + " - Copy");
-        screenBuilders.editor(table)
+        dialogWindows.detail(table)
                 .newEntity(ce)
-                .show();
+                .open();
     }
 
     @Subscribe("table.apply")
