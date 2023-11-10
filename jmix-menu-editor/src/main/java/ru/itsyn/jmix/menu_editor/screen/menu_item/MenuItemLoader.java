@@ -1,6 +1,6 @@
 package ru.itsyn.jmix.menu_editor.screen.menu_item;
 
-import io.jmix.ui.menu.MenuItem;
+import io.jmix.flowui.menu.MenuItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.ApplicationContext;
