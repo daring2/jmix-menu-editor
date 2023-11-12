@@ -12,6 +12,10 @@
     </data>
     <facets>
         <dataLoadCoordinator auto="true"/>
+        <urlQueryParameters>
+            <pagination component="pagination"/>
+            <genericFilter component="filter"/>
+        </urlQueryParameters>
         <settings auto="true"/>
 <!--        <presentations auto="true"/>-->
     </facets>
@@ -21,7 +25,7 @@
     </actions>
 
     <layout expand="table" spacing="true">
-        <genericFilter id="filter" dataLoader="tableDl" summaryText="Фильтр">
+        <genericFilter id="filter" dataLoader="tableDl" summaryText="msg://filter">
             <responsiveSteps>
                 <responsiveStep minWidth="0px" columns="1"/>
                 <responsiveStep minWidth="800px" columns="2"/>
@@ -62,18 +66,5 @@
             <button id="selectBtn" action="selectAction"/>
             <button id="discardBtn" action="discardAction"/>
         </hbox>
-    </layout>
-
-    <layout expand="table" spacing="true">
-        <table id="table" width="100%" dataContainer="tableDc">
-            <simplePagination/>
-            <buttonsPanel id="buttonsPanel" alwaysVisible="true">
-                <button id="createBtn" action="table.create"/>
-                <button id="editBtn" action="table.edit"/>
-                <button id="copyBtn" action="table.copy"/>
-                <button id="removeBtn" action="table.remove"/>
-                <button id="applyBtn" action="table.apply"/>
-            </buttonsPanel>
-        </table>
     </layout>
 </view>
