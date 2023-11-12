@@ -17,11 +17,11 @@ import java.util.List;
 public class MenuItemLoader {
 
     @Autowired
-    ApplicationContext appContext;
+    protected ApplicationContext appContext;
     @Autowired
-    MenuConfigLoader configLoader;
+    protected MenuConfigLoader configLoader;
     @Autowired
-    MenuItemFactory menuItemFactory;
+    protected MenuItemFactory menuItemFactory;
 
     public MenuItemEntity loadMenu(MenuEntity menu) {
         var items = configLoader.loadConfig(menu.getConfig());
@@ -35,10 +35,10 @@ public class MenuItemLoader {
     }
 
     void buildEntities(MenuItem item, MenuItemEntity parent) {
-        var e = menuItemFactory.createItem(item);
-        e.setParent(parent);
-        parent.getChildren().add(e);
-        item.getChildren().forEach(i -> buildEntities(i, e));
+        var entity = menuItemFactory.createItem(item);
+        entity.setParent(parent);
+        parent.getChildren().add(entity);
+        item.getChildren().forEach(i -> buildEntities(i, entity));
     }
 
     public MenuItemEntity loadDefaultMenu() {
