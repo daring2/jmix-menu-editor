@@ -60,8 +60,8 @@ public class MenuItemFactory {
             entity.setBean(item.getBean());
             entity.setBeanMethod(item.getBeanMethod());
             if (descriptor != null) {
-                entity.setOpenMode(MenuOpenMode.fromId(descriptor.attributeValue("openType")));
-                entity.setShortcut(descriptor.attributeValue("shortcut"));
+//                entity.setOpenMode(MenuOpenMode.fromId(descriptor.attributeValue("openType")));
+                entity.setShortcut(descriptor.attributeValue("shortcutCombination"));
                 entity.setContentXml(buildContentXml(descriptor));
             }
         }

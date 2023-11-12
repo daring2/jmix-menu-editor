@@ -35,22 +35,22 @@ public class MenuConfigBuilder {
         if (itemType == MenuItemType.SEPARATOR)
             return;
         addAttributeValue(e, "id", item.getId());
-        addAttributeValue(e, "caption", item.getCaptionKey());
+        addAttributeValue(e, "title", item.getCaptionKey());
         addAttributeValue(e, "description", item.getDescription());
-        addAttributeValue(e, "stylename", item.getStyleName());
+        addAttributeValue(e, "classNames", item.getStyleName());
         addAttributeValue(e, "icon", item.getIcon());
         if (itemType == MenuItemType.MENU) {
             if (isTrue(item.getExpanded()))
-                addAttributeValue(e, "expanded", item.getExpanded());
+                addAttributeValue(e, "opened", item.getExpanded());
             item.getChildren().forEach(i -> addMenuItem(e, i));
         } else if (itemType == MenuItemType.SCREEN){
             if (!item.getId().equals(item.getScreen()))
-                addAttributeValue(e, "screen", item.getScreen());
+                addAttributeValue(e, "view", item.getScreen());
             addAttributeValue(e, "class", item.getRunnableClass());
             addAttributeValue(e, "bean", item.getBean());
             addAttributeValue(e, "beanMethod", item.getBeanMethod());
             addAttributeValue(e, "openMode", item.getOpenMode());
-            addAttributeValue(e, "shortcut", item.getShortcut());
+            addAttributeValue(e, "shortcutCombination", item.getShortcut());
             addContentXml(e, item.getContentXml());
         }
         addAttributeValue(e, "createdDate", item.getCreatedDate());
