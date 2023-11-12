@@ -21,14 +21,14 @@ public class MenuItemHelper {
         return items;
     }
 
-    public String getItemCaption(MenuItemEntity item) {
-        var mi = new MenuItem(item.getId());
-        mi.setTitle(item.getCaptionKey());
-        return menuConfig.getItemTitle(mi);
+    public String getItemCaption(MenuItemEntity entity) {
+        var item = new MenuItem(entity.getId());
+        item.setTitle(entity.getCaptionKey());
+        return menuConfig.getItemTitle(item);
     }
 
-    public void updateItemCaption(MenuItemEntity item) {
-        item.setCaption(getItemCaption(item));
+    public void updateItemCaption(MenuItemEntity entity) {
+        entity.setCaption(getItemCaption(entity));
     }
 
 }
