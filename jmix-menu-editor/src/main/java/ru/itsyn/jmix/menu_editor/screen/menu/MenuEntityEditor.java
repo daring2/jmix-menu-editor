@@ -1,107 +1,94 @@
 package ru.itsyn.jmix.menu_editor.screen.menu;
 
-import com.vaadin.shared.ui.dnd.EffectAllowed;
-import com.vaadin.shared.ui.grid.DropLocation;
-import com.vaadin.shared.ui.grid.DropMode;
-import com.vaadin.ui.TreeGrid;
-import com.vaadin.ui.components.grid.TreeGridDragSource;
-import com.vaadin.ui.components.grid.TreeGridDropEvent;
-import com.vaadin.ui.components.grid.TreeGridDropTarget;
+import com.vaadin.flow.component.combobox.ComboBox;
+import com.vaadin.flow.data.renderer.Renderer;
+import com.vaadin.flow.data.renderer.TextRenderer;
+import com.vaadin.flow.router.Route;
 import io.jmix.core.LoadContext;
 import io.jmix.core.Messages;
 import io.jmix.core.common.util.Dom4j;
-import io.jmix.security.model.BaseRole;
-import io.jmix.security.role.ResourceRoleRepository;
-import io.jmix.ui.Notifications;
-import io.jmix.ui.RemoveOperation;
-import io.jmix.ui.RemoveOperation.AfterActionPerformedEvent;
-import io.jmix.ui.ScreenBuilders;
-import io.jmix.ui.action.Action.ActionPerformedEvent;
-import io.jmix.ui.action.list.RemoveAction;
-import io.jmix.ui.component.ComboBox;
-import io.jmix.ui.component.DataGrid.ColumnGeneratorEvent;
-import io.jmix.ui.component.TabSheet;
-import io.jmix.ui.component.TreeDataGrid;
-import io.jmix.ui.model.CollectionContainer;
-import io.jmix.ui.model.CollectionLoader;
-import io.jmix.ui.model.DataContext;
-import io.jmix.ui.model.InstanceContainer.ItemChangeEvent;
-import io.jmix.ui.navigation.Route;
-import io.jmix.ui.screen.*;
+import io.jmix.flowui.DialogWindows;
+import io.jmix.flowui.Notifications;
+import io.jmix.flowui.component.grid.TreeDataGrid;
+import io.jmix.flowui.component.tabsheet.JmixTabSheet;
+import io.jmix.flowui.kit.action.ActionPerformedEvent;
+import io.jmix.flowui.model.CollectionContainer;
+import io.jmix.flowui.model.CollectionLoader;
+import io.jmix.flowui.model.DataContext;
+import io.jmix.flowui.model.InstanceContainer.ItemChangeEvent;
+import io.jmix.flowui.util.RemoveOperation;
+import io.jmix.flowui.util.RemoveOperation.AfterActionPerformedEvent;
+import io.jmix.flowui.view.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.itsyn.jmix.menu_editor.entity.MenuEntity;
 import ru.itsyn.jmix.menu_editor.entity.MenuItemEntity;
 import ru.itsyn.jmix.menu_editor.screen.menu_item.MenuConfigBuilder;
 import ru.itsyn.jmix.menu_editor.screen.menu_item.MenuItemFilterHelper;
-import ru.itsyn.jmix.menu_editor.util.MenuItemHelper;
 import ru.itsyn.jmix.menu_editor.screen.menu_item.MenuItemLoader;
 import ru.itsyn.jmix.menu_editor.util.DialogHelper;
+import ru.itsyn.jmix.menu_editor.util.MenuItemHelper;
 
-import javax.inject.Named;
 import java.util.HashSet;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import static com.vaadin.shared.ui.dnd.DragSourceState.DATA_TYPE_TEXT_PLAIN;
 import static ru.itsyn.jmix.menu_editor.screen.menu_item.MenuItemFactory.ROOT_ITEM_ID;
 
-@Route(path = "MenuEntity/edit", parentPrefix = "MenuEntity")
-@UiController("menu_MenuEntity.edit")
-@UiDescriptor("menu-entity-editor.xml")
+@Route(value = "MenuEntity/:id", layout = DefaultMainViewParent.class)
+@ViewController("menu_MenuEntity.detail")
+@ViewDescriptor("menu-entity-editor.xml")
 @EditedEntityContainer("editDc")
-public class MenuEntityEditor extends StandardEditor<MenuEntity> {
+@DialogMode(width = "1024px", height = "768px", resizable = true)
+public class MenuEntityEditor extends StandardDetailView<MenuEntity> {
 
     static final String ITEMS_TAB = "itemsTab";
     static final String CONFIG_TAB = "configTab";
 
     @Autowired
-    Messages messages;
+    protected Messages messages;
     @Autowired
-    Notifications notifications;
+    protected Notifications notifications;
+//    @Autowired
+//    protected ResourceRoleRepository roleRepository;
     @Autowired
-    ResourceRoleRepository roleRepository;
+    protected DialogWindows dialogWindows;
     @Autowired
-    ScreenBuilders screenBuilders;
+    protected RemoveOperation removeOperation;
     @Autowired
-    RemoveOperation removeOperation;
+    protected DialogHelper dialogHelper;
     @Autowired
-    DialogHelper dialogHelper;
+    protected MenuItemLoader menuItemLoader;
     @Autowired
-    MenuItemLoader menuItemLoader;
+    protected MenuItemHelper menuItemHelper;
     @Autowired
-    MenuItemHelper menuItemHelper;
+    protected MenuItemFilterHelper menuItemFilterHelper;
     @Autowired
-    MenuItemFilterHelper menuItemFilterHelper;
-    @Autowired
-    MenuConfigBuilder menuConfigBuilder;
-    @Autowired
-    DataContext dataContext;
-    @Autowired
-    TabSheet tabSheet;
-    @Autowired
-    ComboBox<String> roleField;
-    @Autowired
-    CollectionContainer<MenuItemEntity> itemsDc;
-    @Autowired
-    CollectionLoader<MenuItemEntity> itemsDl;
-    @Autowired
-    TreeDataGrid<MenuItemEntity> itemsTable;
-    @Named("itemsTable.remove")
-    RemoveAction<MenuItemEntity> itemRemoveAction;
+    protected MenuConfigBuilder menuConfigBuilder;
+
+    @ViewComponent
+    protected DataContext dataContext;
+    @ViewComponent
+    protected JmixTabSheet tabSheet;
+    @ViewComponent
+    protected ComboBox<String> roleField;
+    @ViewComponent
+    protected CollectionContainer<MenuItemEntity> itemsDc;
+    @ViewComponent
+    protected CollectionLoader<MenuItemEntity> itemsDl;
+    @ViewComponent
+    protected TreeDataGrid<MenuItemEntity> itemsTable;
 
     @Subscribe
     public void onInit(InitEvent event) {
         initTabSheet();
-        initRoleField();
-        initItemDragAndDrop();
-        initRemoveItemAction();
+//        initRoleField();
+//        initItemDragAndDrop();
     }
 
     protected void initTabSheet() {
-        tabSheet.addSelectedTabChangeListener(event -> {
-            if (!event.isUserOriginated())
+        tabSheet.addSelectedChangeListener(event -> {
+            if (!event.isFromClient())
                 return;
-            var tabName = event.getSelectedTab().getName();
+            var tabName = event.getSelectedTab().getId().orElse(null);
             if (ITEMS_TAB.equals(tabName)) {
                 itemsDl.load();
             } else if (CONFIG_TAB.equals(tabName)) {
@@ -110,48 +97,47 @@ public class MenuEntityEditor extends StandardEditor<MenuEntity> {
         });
     }
 
-    protected void initRoleField() {
-        var roleNames = roleRepository.getAllRoles().stream()
-                .collect(Collectors.toMap(BaseRole::getName, BaseRole::getCode));
-        roleField.setOptionsMap(roleNames);
-    }
+//    protected void initRoleField() {
+//        var roleNames = roleRepository.getAllRoles().stream()
+//                .collect(Collectors.toMap(BaseRole::getName, BaseRole::getCode));
+//        roleField.setOptionsMap(roleNames);
+//    }
 
-    protected void initItemDragAndDrop() {
-        TreeGrid<MenuItemEntity> grid = itemsTable.unwrap(TreeGrid.class);
-        var dragSource = new TreeGridDragSource<>(grid);
-        dragSource.setEffectAllowed(EffectAllowed.MOVE);
-        dragSource.setDragDataGenerator(DATA_TYPE_TEXT_PLAIN, MenuItemEntity::getId);
-        var dropTarget = new TreeGridDropTarget<>(grid, DropMode.ON_TOP_OR_BETWEEN);
-        //TODO add DropCriteriaScript
-        dropTarget.addTreeGridDropListener(this::onDropItem);
-    }
+//    protected void initItemDragAndDrop() {
+//        TreeGrid<MenuItemEntity> grid = itemsTable.unwrap(TreeGrid.class);
+//        var dragSource = new TreeGridDragSource<>(grid);
+//        dragSource.setEffectAllowed(EffectAllowed.MOVE);
+//        dragSource.setDragDataGenerator(DATA_TYPE_TEXT_PLAIN, MenuItemEntity::getId);
+//        var dropTarget = new TreeGridDropTarget<>(grid, DropMode.ON_TOP_OR_BETWEEN);
+//        //TODO add DropCriteriaScript
+//        dropTarget.addTreeGridDropListener(this::onDropItem);
+//    }
 
-    protected void onDropItem(TreeGridDropEvent<MenuItemEntity> event) {
-        var item = event.getDataTransferData(DATA_TYPE_TEXT_PLAIN)
-                .map(itemsDc::getItemOrNull)
-                .orElse(null);
-        if (item == null || getRootItem().equals(item))
-            return;
-        var targetItem = event.getDropTargetRow().orElse(null);
-        if (targetItem == null || targetItem.getParent() == null)
-            return;
-        var dropLoc = event.getDropLocation();
-        if (dropLoc == DropLocation.ON_TOP && targetItem.isMenu()) {
-            moveItem(item, targetItem, 0);
-        } else {
-            var parent = targetItem.getParent();
-            var index = parent.getChildIndex(targetItem);
-            if (dropLoc != DropLocation.ABOVE)
-                index += 1;
-            moveItem(item, parent, index);
-        }
-    }
+//    protected void onDropItem(TreeGridDropEvent<MenuItemEntity> event) {
+//        var item = event.getDataTransferData(DATA_TYPE_TEXT_PLAIN)
+//                .map(itemsDc::getItemOrNull)
+//                .orElse(null);
+//        if (item == null || getRootItem().equals(item))
+//            return;
+//        var targetItem = event.getDropTargetRow().orElse(null);
+//        if (targetItem == null || targetItem.getParent() == null)
+//            return;
+//        var dropLoc = event.getDropLocation();
+//        if (dropLoc == DropLocation.ON_TOP && targetItem.isMenu()) {
+//            moveItem(item, targetItem, 0);
+//        } else {
+//            var parent = targetItem.getParent();
+//            var index = parent.getChildIndex(targetItem);
+//            if (dropLoc != DropLocation.ABOVE)
+//                index += 1;
+//            moveItem(item, parent, index);
+//        }
+//    }
 
     protected void moveItem(MenuItemEntity item, MenuItemEntity parent, int index) {
         if (parent.equals(item) || parent.hasAncestor(item)) {
             var warning = messages.getMessage(getClass(), "cyclicDependencyWarning");
-            notifications.create()
-                    .withCaption(warning)
+            notifications.create(warning)
                     .show();
             return;
         }
@@ -168,11 +154,10 @@ public class MenuEntityEditor extends StandardEditor<MenuEntity> {
         itemsDc.setItems(menuItemHelper.buildItemList(rootItem));
     }
 
-    protected void initRemoveItemAction() {
-        itemRemoveAction.addEnabledRule(() -> {
-            var items = itemsTable.getSelected();
-            return !items.contains(getRootItem());
-        });
+    @Install(to = "itemsTable.remove", subject = "enabledRule")
+    protected Boolean isItemRemoveEnabled() {
+        var items = itemsTable.getSelectedItems();
+        return !items.contains(getRootItem());
     }
 
     @Install(to = "itemsDl", target = Target.DATA_LOADER)
@@ -184,39 +169,38 @@ public class MenuEntityEditor extends StandardEditor<MenuEntity> {
 
     @Subscribe(id = "itemsDc", target = Target.DATA_CONTAINER)
     public void onItemsDcItemChange(ItemChangeEvent<MenuItemEntity> event) {
-        if (event.getPrevItem() == null)
-            refreshItems();
+//        if (event.getPrevItem() == null)
+//            refreshItems();
     }
 
-    @Install(to = "itemsTable.caption", subject = "columnGenerator")
-    protected String newItemCaptionCell(ColumnGeneratorEvent<MenuItemEntity> event) {
-        return menuItemHelper.getItemCaption(event.getItem());
+//    @Supply(to = "itemsTable.caption", subject = "renderer")
+    protected Renderer<MenuItemEntity> newItemCaptionRenderer() {
+        return new TextRenderer<>(menuItemHelper::getItemCaption);
     }
 
     @Subscribe("itemsTable.create")
     void onItemCreate(ActionPerformedEvent event) {
-        var si = itemsTable.getSingleSelected();
-        if (si == null) si = getRootItem();
-        var parent = si.isMenu() ? si : si.getParent();
-        var index = parent != si ? parent.getChildIndex(si) + 1 : 0;
-        screenBuilders.editor(itemsTable)
+        var item = itemsTable.getSingleSelectedItem();
+        if (item == null)
+            item = getRootItem();
+        var parent = item.isMenu() ? item : item.getParent();
+        var index = parent != item ? parent.getChildIndex(item) + 1 : 0;
+        dialogWindows.detail(itemsTable)
                 .newEntity()
-                .withOpenMode(OpenMode.DIALOG)
                 .withParentDataContext(dataContext)
                 .withInitializer(i -> i.setParent(parent))
                 .withTransformation(i -> {
                     parent.addChild(i, index);
                     return i;
                 })
-                .show();
+                .open();
     }
 
     @Subscribe("itemsTable.edit")
     void onItemEdit(ActionPerformedEvent event) {
-        screenBuilders.editor(itemsTable)
-                .withOpenMode(OpenMode.DIALOG)
+        dialogWindows.detail(itemsTable)
                 .withParentDataContext(dataContext)
-                .show();
+                .open();
     }
 
     @Subscribe("itemsTable.remove")
@@ -239,7 +223,7 @@ public class MenuEntityEditor extends StandardEditor<MenuEntity> {
         dialogHelper.newConfirmationDialog(
                 messages.getMessage(getClass(), "resetConfirmation"),
                 this::resetMenu
-        ).show();
+        ).open();
     }
 
     protected void resetMenu(ActionPerformedEvent event) {
@@ -249,10 +233,11 @@ public class MenuEntityEditor extends StandardEditor<MenuEntity> {
     }
 
     @Subscribe
-    public void onBeforeCommitChanges(BeforeCommitChangesEvent event) {
+    public void onBeforeSave(BeforeSaveEvent event) {
         var rootItem = getRootItem();
         if (rootItem == null) return;
-        if (ITEMS_TAB.equals(tabSheet.getSelectedTab().getName()))
+        var selectedTabId = tabSheet.getSelectedTab().getId().orElse(null);
+        if (ITEMS_TAB.equals(selectedTabId))
             updateMenuConfig(rootItem);
         // optimization
         new HashSet<>(dataContext.getModified()).forEach(e -> {

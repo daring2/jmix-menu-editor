@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<window xmlns="http://jmix.io/schema/ui/window"
-        caption="msg://menuEntityEditor.caption"
+<view xmlns="http://jmix.io/schema/flowui/view"
+        title="msg://menuEntityEditor.caption"
         focusComponent="form">
     <data>
         <instance id="editDc" class="ru.itsyn.jmix.menu_editor.entity.MenuEntity">
@@ -13,94 +13,99 @@
     </data>
     <facets>
         <dataLoadCoordinator auto="true"/>
-        <screenSettings id="settingsFacet" auto="true"/>
-        <presentations auto="true"/>
+        <settings id="settingsFacet" auto="true"/>
+<!--        <presentations auto="true"/>-->
     </facets>
     <actions>
-        <action id="windowCommitAndClose" caption="msg:///actions.Ok"
-                icon="EDITOR_OK"
-                primary="true"
-                shortcut="${COMMIT_SHORTCUT}"/>
-        <action id="windowCommit" caption="msg:///actions.Save"
-                icon="EDITOR_SAVE"/>
-        <action id="windowClose"
-                caption="msg:///actions.Close"
-                icon="EDITOR_CANCEL"/>
+        <action id="saveAndCloseAction" type="detail_saveClose"/>
+        <action id="saveAction" type="detail_save"/>
+        <action id="closeAction" type="detail_close" text="msg:///actions.Close"/>
     </actions>
-    <dialogMode height="768" width="1024"/>
-    <layout>
-        <split id="split" orientation="horizontal" pos="50">
-            <vbox expand="editActions" height="100%" width="100%" margin="true" spacing="true">
-                <form id="form" dataContainer="editDc" width="100%">
-                    <column width="100%">
+    <layout expand="split">
+        <split id="split" orientation="HORIZONTAL" splitterPosition="50">
+            <vbox expand="editActions" height="100%" width="100%" spacing="true">
+                <formLayout id="form" dataContainer="editDc" width="100%" classNames="form-layout"
+                            labelsPosition="ASIDE">
+                    <responsiveSteps>
+                        <responsiveStep minWidth="0" columns="1"/>
+                    </responsiveSteps>
+                    <formItem>
                         <textField id="nameField" property="name"/>
+                    </formItem>
+                    <formItem>
                         <textField id="codeField" property="code"/>
+                    </formItem>
+                    <formItem>
                         <textField id="priorityField" property="priority"/>
+                    </formItem>
+                    <formItem>
                         <comboBox id="roleField" property="roleCode"/>
-                        <textArea id="descriptionField" property="description" rows="5"/>
-                    </column>
-                </form>
-                <hbox id="editActions" spacing="true">
-                    <button id="commitAndCloseBtn" action="windowCommitAndClose"/>
-                    <button id="windowCommit" action="windowCommit"/>
-                    <button id="closeBtn" action="windowClose"/>
+                    </formItem>
+                    <formItem>
+                        <textArea id="descriptionField" property="description" height="8em"/>
+                    </formItem>
+                </formLayout>
+                <hbox id="editActions">
+                    <button id="saveAndCloseBtn" action="saveAndCloseAction"/>
+                    <button id="saveBtn" action="saveAction"/>
+                    <button id="closeBtn" action="closeAction"/>
                 </hbox>
             </vbox>
-            <vbox expand="tabSheet" height="100%" width="100%" margin="false,true,false,true" spacing="true">
+            <vbox expand="tabSheet" height="100%" width="100%">
+                <!-- margin="false,true,false,true" -->
                 <tabSheet id="tabSheet" width="100%">
-                    <tab id="itemsTab" expand="itemsTable" margin="true" spacing="true"
-                         caption="msg://itemsTab.caption">
-                        <filter id="itemsFilter" dataLoader="itemsDl" width="100%"
-                                columnsCount="1" collapsed="true">
-                            <properties include="none"/>
-                            <conditions>
-                                <propertyFilter property="caption" operation="CONTAINS"
-                                                caption="msg://ru.itsyn.jmix.menu_editor.entity/MenuItemEntity.caption"/>
-                            </conditions>
-                        </filter>
-                        <treeDataGrid id="itemsTable" dataContainer="itemsDc" hierarchyProperty="parent"
-                                      width="100%" sortable="false">
-                            <actions>
-                                <action id="create" type="create"/>
-                                <action id="edit" type="edit"/>
-                                <action id="remove" type="remove"/>
-                                <action id="resetMenu" caption="msg://resetMenu"/>
-                            </actions>
-                            <columns>
-                                <!-- <column property="id" collapsed="true"/>-->
-                                <column id="caption" caption="msg://ru.itsyn.jmix.menu_editor.entity/MenuItemEntity.caption"/>
-                                <column property="screen"/>
-                                <column property="captionKey" collapsed="true"/>
-                                <column property="description" collapsed="true"/>
-                                <column property="itemType" collapsed="true"/>
-                                <column property="openMode" collapsed="true"/>
-                                <column property="expanded" collapsed="true"/>
-                                <column property="styleName" collapsed="true"/>
-                                <column property="icon" collapsed="true"/>
-                                <column property="runnableClass" collapsed="true"/>
-                                <column property="bean" collapsed="true"/>
-                                <column property="beanMethod" collapsed="true"/>
-                                <column property="createdDate" collapsed="true"/>
-                                <column property="createdBy" collapsed="true"/>
-                                <column property="lastModifiedDate" collapsed="true"/>
-                                <column property="lastModifiedBy" collapsed="true"/>
-                            </columns>
-                            <buttonsPanel alwaysVisible="true">
-                                <button action="itemsTable.create"/>
-                                <button action="itemsTable.edit"/>
-                                <button action="itemsTable.remove"/>
-                                <button action="itemsTable.resetMenu"/>
-                            </buttonsPanel>
-                        </treeDataGrid>
+                    <tab id="itemsTab" label="msg://itemsTab.caption">
+                        <vbox expand="itemsTable" spacing="true">
+                            <genericFilter id="filter" dataLoader="itemsDl" width="100%">
+                                <properties include="none"/>
+                                <conditions>
+                                    <propertyFilter property="caption" operation="CONTAINS"
+                                                    label="msg://ru.itsyn.jmix.menu_editor.entity/MenuItemEntity.caption"/>
+                                </conditions>
+                            </genericFilter>
+                            <hbox id="buttonsPanel" classNames="buttons-panel">
+                                <button id="createBtn" action="itemsTable.create"/>
+                                <button id="editBtn" action="itemsTable.edit"/>
+                                <button id="removeBtn" action="itemsTable.remove"/>
+                                <button id="resetBtn" action="itemsTable.resetMenu"/>
+                            </hbox>
+                            <treeDataGrid id="itemsTable" dataContainer="itemsDc" minHeight="20em"
+                                          hierarchyProperty="parent">
+                                <actions>
+                                    <action id="create" type="list_create"/>
+                                    <action id="edit" type="list_edit"/>
+                                    <action id="remove" type="list_remove"/>
+                                    <action id="resetMenu" text="msg://resetMenu"/>
+                                </actions>
+                                <columns>
+                                    <column property="caption"/>
+                                    <column property="screen"/>
+<!--                                    <column property="captionKey" collapsed="true"/>-->
+<!--                                    <column property="description" collapsed="true"/>-->
+<!--                                    <column property="itemType" collapsed="true"/>-->
+<!--                                    <column property="openMode" collapsed="true"/>-->
+<!--                                    <column property="expanded" collapsed="true"/>-->
+<!--                                    <column property="styleName" collapsed="true"/>-->
+<!--                                    <column property="icon" collapsed="true"/>-->
+<!--                                    <column property="runnableClass" collapsed="true"/>-->
+<!--                                    <column property="bean" collapsed="true"/>-->
+<!--                                    <column property="beanMethod" collapsed="true"/>-->
+<!--                                    <column property="createdDate" collapsed="true"/>-->
+<!--                                    <column property="createdBy" collapsed="true"/>-->
+<!--                                    <column property="lastModifiedDate" collapsed="true"/>-->
+<!--                                    <column property="lastModifiedBy" collapsed="true"/>-->
+                                </columns>
+                            </treeDataGrid>
+                        </vbox>
                     </tab>
-                    <tab id="configTab" expand="configField" margin="true" spacing="true"
-                         caption="msg://configTab.caption">
-                        <sourceCodeEditor id="configField" dataContainer="editDc" property="config" width="100%"
-                                          mode="XML" highlightActiveLine="false" showGutter="false"/>
+                    <tab id="configTab" label="msg://configTab.caption">
+                        <vbox expand="configField" spacing="true">
+                            <codeEditor id="configField" dataContainer="editDc" property="config"
+                                        mode="XML" showGutter="false" highlightActiveLine="false"/>
+                        </vbox>
                     </tab>
                 </tabSheet>
-
             </vbox>
         </split>
     </layout>
-</window>
+</view>
