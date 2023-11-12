@@ -21,8 +21,8 @@ public class MenuConfigLoader extends BaseMenuConfig {
         rootItems = new ArrayList<>();
         if (xml == null)
             return rootItems;
-        var re = Dom4j.readDocument(xml).getRootElement();
-        loadMenuItems(re, null);
+        var rootElement = Dom4j.readDocument(xml).getRootElement();
+        loadMenuItems(rootElement, null);
         return rootItems;
     }
 
