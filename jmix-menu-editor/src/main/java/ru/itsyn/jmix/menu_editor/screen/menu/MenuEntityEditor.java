@@ -19,6 +19,8 @@ import io.jmix.flowui.model.InstanceContainer.ItemChangeEvent;
 import io.jmix.flowui.util.RemoveOperation;
 import io.jmix.flowui.util.RemoveOperation.AfterActionPerformedEvent;
 import io.jmix.flowui.view.*;
+import io.jmix.security.model.ResourceRole;
+import io.jmix.security.role.ResourceRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.itsyn.jmix.menu_editor.entity.MenuEntity;
 import ru.itsyn.jmix.menu_editor.entity.MenuItemEntity;
@@ -30,6 +32,7 @@ import ru.itsyn.jmix.menu_editor.util.MenuItemHelper;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.TreeMap;
 
 import static ru.itsyn.jmix.menu_editor.screen.menu_item.MenuItemFactory.ROOT_ITEM_ID;
 
@@ -47,8 +50,8 @@ public class MenuEntityEditor extends StandardDetailView<MenuEntity> {
     protected Messages messages;
     @Autowired
     protected Notifications notifications;
-//    @Autowired
-//    protected ResourceRoleRepository roleRepository;
+    @Autowired
+    protected ResourceRoleRepository roleRepository;
     @Autowired
     protected DialogWindows dialogWindows;
     @Autowired
@@ -80,7 +83,7 @@ public class MenuEntityEditor extends StandardDetailView<MenuEntity> {
     @Subscribe
     public void onInit(InitEvent event) {
         initTabSheet();
-//        initRoleField();
+        initRoleField();
 //        initItemDragAndDrop();
     }
 
@@ -97,11 +100,14 @@ public class MenuEntityEditor extends StandardDetailView<MenuEntity> {
         });
     }
 
-//    protected void initRoleField() {
-//        var roleNames = roleRepository.getAllRoles().stream()
-//                .collect(Collectors.toMap(BaseRole::getName, BaseRole::getCode));
-//        roleField.setOptionsMap(roleNames);
-//    }
+    protected void initRoleField() {
+        var roleNames = new TreeMap<String, String>();
+        for (ResourceRole role : roleRepository.getAllRoles()) {
+            roleNames.put(role.getCode(), role.getName());
+        }
+        roleField.setItems(roleNames.keySet());
+        roleField.setItemLabelGenerator(roleNames::get);
+    }
 
 //    protected void initItemDragAndDrop() {
 //        TreeGrid<MenuItemEntity> grid = itemsTable.unwrap(TreeGrid.class);
@@ -141,10 +147,10 @@ public class MenuEntityEditor extends StandardDetailView<MenuEntity> {
                     .show();
             return;
         }
-        var pi = item.getParent();
-        if (pi == parent && pi.getChildIndex(item) < index)
+        var parentIndex = item.getParent();
+        if (parentIndex == parent && parentIndex.getChildIndex(item) < index)
             index -= 1;
-        pi.removeChild(item);
+        parentIndex.removeChild(item);
         parent.addChild(item, index);
         refreshItems();
     }
@@ -247,8 +253,8 @@ public class MenuEntityEditor extends StandardDetailView<MenuEntity> {
     }
 
     protected void updateMenuConfig(MenuItemEntity rootItem) {
-        var doc = menuConfigBuilder.buildMenuConfig(rootItem.getChildren());
-        var config = Dom4j.writeDocument(doc, true);
+        var document = menuConfigBuilder.buildMenuConfig(rootItem.getChildren());
+        var config = Dom4j.writeDocument(document, true);
         getEditedEntity().setConfig(config);
     }
 
