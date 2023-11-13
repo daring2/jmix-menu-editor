@@ -6,6 +6,7 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 import io.jmix.core.TimeSource;
 import io.jmix.core.security.CurrentAuthentication;
+import io.jmix.flowui.model.InstanceContainer.ItemPropertyChangeEvent;
 import io.jmix.flowui.view.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.itsyn.jmix.menu_editor.entity.MenuItemEntity;
@@ -29,8 +30,6 @@ public class MenuItemEditor extends StandardDetailView<MenuItemEntity> {
     @ViewComponent
     protected TextField idField;
     @ViewComponent
-    protected TextField captionKeyField;
-    @ViewComponent
     protected ComboBox<MenuItemType> itemTypeField;
     @ViewComponent
     protected Checkbox expandedField;
@@ -41,8 +40,6 @@ public class MenuItemEditor extends StandardDetailView<MenuItemEntity> {
     }
 
     protected void initValueChangeListeners() {
-        idField.addValueChangeListener(e -> updateCaption());
-        captionKeyField.addValueChangeListener(e -> updateCaption());
         itemTypeField.addValueChangeListener(e -> {
             expandedField.setReadOnly(e.getValue() != MenuItemType.MENU);
         });
@@ -53,6 +50,14 @@ public class MenuItemEditor extends StandardDetailView<MenuItemEntity> {
         var entity = event.getEntity();
         entity.setCreatedDate(timeSource.currentTimestamp());
         entity.setCreatedBy(currentAuthentication.getUser().getUsername());
+    }
+
+    @Subscribe(id = "editDc", target = Target.DATA_CONTAINER)
+    protected void onItemPropertyChange(ItemPropertyChangeEvent<MenuItemEntity> event) {
+        var property = event.getProperty();
+        if ("id".equals(property) || "captionKey".equals(property)) {
+            updateCaption();
+        }
     }
 
     @Subscribe
