@@ -15,13 +15,13 @@ class MenuConfigLoaderTest {
     @Test
     public void testLoadDefaultConfig() {
         var items = configLoader.loadDefaultConfig();
-        assertEquals(1, items.size());
+        assertEquals(2, items.size());
         var rootItem = items.get(0);
         assertEquals("administration", rootItem.getId());
-        assertEquals(3, rootItem.getChildren().size());
-        var item1 = rootItem.getChildren().get(2);
-        assertEquals("menu_MenuEntity.browse", item1.getId());
-        assertEquals(item1.getId(), item1.getScreen());
+        assertEquals(1, rootItem.getChildren().size());
+        var item1 = rootItem.getChildren().get(0);
+        assertEquals("menu_MenuEntity.list", item1.getId());
+        assertEquals(item1.getId(), item1.getView());
     }
 
 }

@@ -1,6 +1,8 @@
 package ru.itsyn.jmix.menu_editor;
 
 import io.jmix.core.annotation.JmixModule;
+import io.jmix.core.security.InMemoryUserRepository;
+import io.jmix.core.security.UserRepository;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -26,6 +28,11 @@ public class JmixMenuEditorTestConfiguration {
                 .generateUniqueName(true)
                 .setType(EmbeddedDatabaseType.HSQL)
                 .build();
+    }
+
+    @Bean
+    UserRepository userRepository() {
+        return new InMemoryUserRepository();
     }
 
 }
