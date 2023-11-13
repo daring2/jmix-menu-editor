@@ -1,8 +1,15 @@
 package ru.itsyn.jmix.menu_editor.screen.menu;
 
+import com.vaadin.flow.component.UI;
+import io.jmix.flowui.app.main.StandardMainView;
+import io.jmix.flowui.component.main.JmixListMenu;
+import io.jmix.flowui.kit.component.main.ListMenu;
+import io.jmix.flowui.kit.component.main.ListMenu.MenuBarItem;
 import io.jmix.flowui.menu.MenuConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import static io.jmix.flowui.component.UiComponentUtils.getComponents;
 
 @Component("menu_AppMenuManager")
 public class AppMenuManager {
@@ -12,34 +19,32 @@ public class AppMenuManager {
 
     public void reloadAppMenu() {
         menuConfig.reset();
-//        var topWindow = AppUI.getCurrent().getTopLevelWindowNN();
-//        var appMenu = (AppMenu) ObjectUtils.firstNonNull(
-//                topWindow.getComponent("appMenu"),
-//                topWindow.getComponent("mainMenu")
-//        );
-//        if (appMenu != null) {
-//            removeAllMenuItems(appMenu);
-//            appMenu.loadMenu();
-//        }
-//        var sideMenu = (SideMenu) topWindow.getComponent("sideMenu");
-//        if (sideMenu != null) {
-//            sideMenu.removeAllMenuItems();
-//            sideMenu.loadMenuConfig();
-//        }
+        var appMenu = (JmixListMenu) UI.getCurrent().getChildren()
+                .filter(c -> c instanceof StandardMainView)
+                .flatMap(c -> getComponents(c).stream())
+                .filter(c -> c instanceof JmixListMenu)
+                .findFirst()
+                .orElse(null);
+        if (appMenu != null) {
+            removeAllMenuItems(appMenu);
+            appMenu.loadMenuConfig();
+        }
     }
 
-//    protected void removeAllMenuItems(AppMenu menu) {
-//        for (var mi : menu.getMenuItems()) {
-//            removeMenuItem(mi);
-//            menu.removeMenuItem(mi);
-//        }
-//    }
-//
-//    protected void removeMenuItem(AppMenu.MenuItem menuItem) {
-//        for (var ci : menuItem.getChildren()) {
-//            removeMenuItem(ci);
-//            menuItem.removeChildItem(ci);
-//        }
-//    }
+    protected void removeAllMenuItems(ListMenu menu) {
+        for (var item : menu.getMenuItems()) {
+            removeMenuItem(item);
+            menu.removeMenuItem(item);
+        }
+    }
+
+    protected void removeMenuItem(ListMenu.MenuItem item) {
+        if (!(item instanceof MenuBarItem menu))
+            return;
+        for (var child : menu.getChildren()) {
+            removeMenuItem(child);
+            menu.removeChildItem(child);
+        }
+    }
 
 }
