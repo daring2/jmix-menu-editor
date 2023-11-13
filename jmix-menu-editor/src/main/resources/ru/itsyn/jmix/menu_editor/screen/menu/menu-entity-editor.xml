@@ -52,7 +52,6 @@
                 </hbox>
             </vbox>
             <vbox expand="tabSheet" height="100%" width="100%">
-                <!-- margin="false,true,false,true" -->
                 <tabSheet id="tabSheet" width="100%">
                     <tab id="itemsTab" label="msg://itemsTab.caption">
                         <vbox expand="itemsTable" spacing="true">

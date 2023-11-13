@@ -1,35 +1,39 @@
 package ru.itsyn.jmix.menu_editor.screen.menu_item;
 
+import com.vaadin.flow.component.checkbox.Checkbox;
+import com.vaadin.flow.component.combobox.ComboBox;
+import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.router.Route;
 import io.jmix.core.TimeSource;
 import io.jmix.core.security.CurrentAuthentication;
-import io.jmix.ui.component.CheckBox;
-import io.jmix.ui.component.ComboBox;
-import io.jmix.ui.component.TextField;
-import io.jmix.ui.screen.*;
+import io.jmix.flowui.view.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.itsyn.jmix.menu_editor.entity.MenuItemEntity;
 import ru.itsyn.jmix.menu_editor.entity.MenuItemType;
 import ru.itsyn.jmix.menu_editor.util.MenuItemHelper;
 
-@UiController("menu_MenuItemEntity.edit")
-@UiDescriptor("menu-item-editor.xml")
+@Route(value = "MenuItemEntity/:id", layout = DefaultMainViewParent.class)
+@ViewController("menu_MenuItemEntity.detail")
+@ViewDescriptor("menu-item-editor.xml")
 @EditedEntityContainer("editDc")
-public class MenuItemEditor extends StandardEditor<MenuItemEntity> {
+@DialogMode(width = "1024px", height = "768px", resizable = true)
+public class MenuItemEditor extends StandardDetailView<MenuItemEntity> {
 
     @Autowired
-    TimeSource timeSource;
+    protected TimeSource timeSource;
     @Autowired
-    CurrentAuthentication currentAuthentication;
+    protected CurrentAuthentication currentAuthentication;
     @Autowired
-    MenuItemHelper menuItemHelper;
-    @Autowired
-    TextField<String> idField;
-    @Autowired
-    TextField<String> captionKeyField;
-    @Autowired
-    ComboBox<MenuItemType> itemTypeField;
-    @Autowired
-    CheckBox expandedField;
+    protected MenuItemHelper menuItemHelper;
+
+    @ViewComponent
+    protected TextField idField;
+    @ViewComponent
+    protected TextField captionKeyField;
+    @ViewComponent
+    protected ComboBox<MenuItemType> itemTypeField;
+    @ViewComponent
+    protected Checkbox expandedField;
 
     @Subscribe
     public void onInit(InitEvent event) {
@@ -40,7 +44,7 @@ public class MenuItemEditor extends StandardEditor<MenuItemEntity> {
         idField.addValueChangeListener(e -> updateCaption());
         captionKeyField.addValueChangeListener(e -> updateCaption());
         itemTypeField.addValueChangeListener(e -> {
-            expandedField.setEditable(e.getValue() == MenuItemType.MENU);
+            expandedField.setReadOnly(e.getValue() != MenuItemType.MENU);
         });
     }
 
@@ -55,7 +59,7 @@ public class MenuItemEditor extends StandardEditor<MenuItemEntity> {
     public void onBeforeShow(BeforeShowEvent event) {
         var entity = getEditedEntity();
         if (entity.getId() != null)
-            idField.setEditable(false);
+            idField.setReadOnly(true);
     }
 
     protected void updateCaption() {
@@ -63,7 +67,7 @@ public class MenuItemEditor extends StandardEditor<MenuItemEntity> {
     }
 
     @Subscribe
-    public void onBeforeCommitChanges(BeforeCommitChangesEvent event) {
+    public void onBeforeSave(BeforeSaveEvent event) {
         var entity = getEditedEntity();
         entity.setLastModifiedDate(timeSource.currentTimestamp());
         entity.setLastModifiedBy(currentAuthentication.getUser().getUsername());

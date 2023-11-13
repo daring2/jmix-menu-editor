@@ -1,6 +1,7 @@
 package ru.itsyn.jmix.menu_editor.screen.menu;
 
 import com.vaadin.flow.component.combobox.ComboBox;
+import com.vaadin.flow.component.grid.ItemDoubleClickEvent;
 import com.vaadin.flow.data.renderer.Renderer;
 import com.vaadin.flow.data.renderer.TextRenderer;
 import com.vaadin.flow.router.Route;
@@ -9,6 +10,7 @@ import io.jmix.core.Messages;
 import io.jmix.core.common.util.Dom4j;
 import io.jmix.flowui.DialogWindows;
 import io.jmix.flowui.Notifications;
+import io.jmix.flowui.action.list.EditAction;
 import io.jmix.flowui.component.grid.TreeDataGrid;
 import io.jmix.flowui.component.tabsheet.JmixTabSheet;
 import io.jmix.flowui.kit.action.ActionPerformedEvent;
@@ -79,6 +81,8 @@ public class MenuEntityEditor extends StandardDetailView<MenuEntity> {
     protected CollectionLoader<MenuItemEntity> itemsDl;
     @ViewComponent
     protected TreeDataGrid<MenuItemEntity> itemsTable;
+    @ViewComponent("itemsTable.edit")
+    protected EditAction<MenuItemEntity> itemsTableEdit;
 
     @Subscribe
     public void onInit(InitEvent event) {
@@ -174,7 +178,7 @@ public class MenuEntityEditor extends StandardDetailView<MenuEntity> {
     }
 
     @Subscribe(id = "itemsDc", target = Target.DATA_CONTAINER)
-    public void onItemsDcItemChange(ItemChangeEvent<MenuItemEntity> event) {
+    protected void onItemsDcItemChange(ItemChangeEvent<MenuItemEntity> event) {
 //        if (event.getPrevItem() == null)
 //            refreshItems();
     }
@@ -185,7 +189,7 @@ public class MenuEntityEditor extends StandardDetailView<MenuEntity> {
     }
 
     @Subscribe("itemsTable.create")
-    void onItemCreate(ActionPerformedEvent event) {
+    protected void onItemCreate(ActionPerformedEvent event) {
         var item = itemsTable.getSingleSelectedItem();
         if (item == null)
             item = getRootItem();
@@ -203,7 +207,7 @@ public class MenuEntityEditor extends StandardDetailView<MenuEntity> {
     }
 
     @Subscribe("itemsTable.edit")
-    void onItemEdit(ActionPerformedEvent event) {
+    protected void onItemEdit(ActionPerformedEvent event) {
         dialogWindows.detail(itemsTable)
                 .withParentDataContext(dataContext)
                 .open();
@@ -216,7 +220,7 @@ public class MenuEntityEditor extends StandardDetailView<MenuEntity> {
                 .remove();
     }
 
-    void afterItemRemove(AfterActionPerformedEvent<MenuItemEntity> event) {
+    protected void afterItemRemove(AfterActionPerformedEvent<MenuItemEntity> event) {
         var items = itemsDc.getMutableItems();
         for (MenuItemEntity item : event.getItems()) {
             item.getParent().removeChild(item);
@@ -225,7 +229,7 @@ public class MenuEntityEditor extends StandardDetailView<MenuEntity> {
     }
 
     @Subscribe("itemsTable.resetMenu")
-    public void onResetMenu(ActionPerformedEvent event) {
+    protected void onResetMenu(ActionPerformedEvent event) {
         dialogHelper.newConfirmationDialog(
                 messages.getMessage(getClass(), "resetConfirmation"),
                 this::resetMenu
@@ -238,8 +242,14 @@ public class MenuEntityEditor extends StandardDetailView<MenuEntity> {
         itemsDl.load();
     }
 
+    @Subscribe("itemsTable")
+    protected void onItemDoubleClick(ItemDoubleClickEvent<MenuItemEntity> event) {
+        itemsTable.select(event.getItem());
+        itemsTableEdit.actionPerform(itemsTable);
+    }
+
     @Subscribe
-    public void onBeforeSave(BeforeSaveEvent event) {
+    protected void onBeforeSave(BeforeSaveEvent event) {
         var rootItem = getRootItem();
         if (rootItem == null) return;
         var selectedTabId = tabSheet.getSelectedTab().getId().orElse(null);
