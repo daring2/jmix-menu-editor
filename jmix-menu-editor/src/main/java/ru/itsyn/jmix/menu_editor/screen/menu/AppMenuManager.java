@@ -9,6 +9,8 @@ import io.jmix.flowui.menu.MenuConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+
 import static io.jmix.flowui.component.UiComponentUtils.getComponents;
 
 @Component("menu_AppMenuManager")
@@ -32,19 +34,19 @@ public class AppMenuManager {
     }
 
     protected void removeAllMenuItems(ListMenu menu) {
-        for (var item : menu.getMenuItems()) {
+        new ArrayList<>(menu.getMenuItems()).forEach(item -> {
             removeMenuItem(item);
             menu.removeMenuItem(item);
-        }
+        });
     }
 
     protected void removeMenuItem(ListMenu.MenuItem item) {
         if (!(item instanceof MenuBarItem menu))
             return;
-        for (var child : menu.getChildren()) {
+        new ArrayList<>(menu.getChildren()).forEach(child -> {
             removeMenuItem(child);
             menu.removeChildItem(child);
-        }
+        });
     }
 
 }
