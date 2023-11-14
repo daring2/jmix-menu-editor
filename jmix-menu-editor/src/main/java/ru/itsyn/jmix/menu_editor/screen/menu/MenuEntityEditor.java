@@ -2,6 +2,9 @@ package ru.itsyn.jmix.menu_editor.screen.menu;
 
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.grid.ItemDoubleClickEvent;
+import com.vaadin.flow.component.grid.dnd.GridDropEvent;
+import com.vaadin.flow.component.grid.dnd.GridDropLocation;
+import com.vaadin.flow.component.grid.dnd.GridDropMode;
 import com.vaadin.flow.data.renderer.Renderer;
 import com.vaadin.flow.data.renderer.TextRenderer;
 import com.vaadin.flow.router.Route;
@@ -45,8 +48,9 @@ import static ru.itsyn.jmix.menu_editor.screen.menu_item.MenuItemFactory.ROOT_IT
 @DialogMode(width = "1024px", height = "768px", resizable = true)
 public class MenuEntityEditor extends StandardDetailView<MenuEntity> {
 
-    static final String ITEMS_TAB = "itemsTab";
-    static final String CONFIG_TAB = "configTab";
+    protected static final String ITEMS_TAB = "itemsTab";
+    protected static final String CONFIG_TAB = "configTab";
+    protected static final String TEXT_PLAIN = "text/plain";
 
     @Autowired
     protected Messages messages;
@@ -88,7 +92,7 @@ public class MenuEntityEditor extends StandardDetailView<MenuEntity> {
     public void onInit(InitEvent event) {
         initTabSheet();
         initRoleField();
-//        initItemDragAndDrop();
+        initItemDragAndDrop();
     }
 
     protected void initTabSheet() {
@@ -113,36 +117,34 @@ public class MenuEntityEditor extends StandardDetailView<MenuEntity> {
         roleField.setItemLabelGenerator(roleNames::get);
     }
 
-//    protected void initItemDragAndDrop() {
-//        TreeGrid<MenuItemEntity> grid = itemsTable.unwrap(TreeGrid.class);
-//        var dragSource = new TreeGridDragSource<>(grid);
-//        dragSource.setEffectAllowed(EffectAllowed.MOVE);
-//        dragSource.setDragDataGenerator(DATA_TYPE_TEXT_PLAIN, MenuItemEntity::getId);
-//        var dropTarget = new TreeGridDropTarget<>(grid, DropMode.ON_TOP_OR_BETWEEN);
-//        //TODO add DropCriteriaScript
-//        dropTarget.addTreeGridDropListener(this::onDropItem);
-//    }
+    protected void initItemDragAndDrop() {
+        itemsTable.setRowsDraggable(true);
+        itemsTable.setDragDataGenerator(TEXT_PLAIN, MenuItemEntity::getId);
+        itemsTable.setDropMode(GridDropMode.ON_TOP_OR_BETWEEN);
+        //TODO add DropCriteriaScript
+        itemsTable.addDropListener(this::onDropItem);
+    }
 
-//    protected void onDropItem(TreeGridDropEvent<MenuItemEntity> event) {
-//        var item = event.getDataTransferData(DATA_TYPE_TEXT_PLAIN)
-//                .map(itemsDc::getItemOrNull)
-//                .orElse(null);
-//        if (item == null || getRootItem().equals(item))
-//            return;
-//        var targetItem = event.getDropTargetRow().orElse(null);
-//        if (targetItem == null || targetItem.getParent() == null)
-//            return;
-//        var dropLoc = event.getDropLocation();
-//        if (dropLoc == DropLocation.ON_TOP && targetItem.isMenu()) {
-//            moveItem(item, targetItem, 0);
-//        } else {
-//            var parent = targetItem.getParent();
-//            var index = parent.getChildIndex(targetItem);
-//            if (dropLoc != DropLocation.ABOVE)
-//                index += 1;
-//            moveItem(item, parent, index);
-//        }
-//    }
+    protected void onDropItem(GridDropEvent<MenuItemEntity> event) {
+        var item = event.getDataTransferData(TEXT_PLAIN)
+                .map(itemsDc::getItemOrNull)
+                .orElse(null);
+        if (item == null || getRootItem().equals(item))
+            return;
+        var targetItem = event.getDropTargetItem().orElse(null);
+        if (targetItem == null || targetItem.getParent() == null)
+            return;
+        var dropLocation = event.getDropLocation();
+        if (dropLocation == GridDropLocation.ON_TOP && targetItem.isMenu()) {
+            moveItem(item, targetItem, 0);
+        } else {
+            var parent = targetItem.getParent();
+            var index = parent.getChildIndex(targetItem);
+            if (dropLocation != GridDropLocation.ABOVE)
+                index += 1;
+            moveItem(item, parent, index);
+        }
+    }
 
     protected void moveItem(MenuItemEntity item, MenuItemEntity parent, int index) {
         if (parent.equals(item) || parent.hasAncestor(item)) {
