@@ -1,9 +1,9 @@
 name: Check build
 on:
   push:
-    branches: [main]
+    branches: [jmix-2.x]
   pull_request:
-    branches: [main]
+    branches: [jmix-2.x]
 
 jobs:
   build:
@@ -15,7 +15,7 @@ jobs:
       - name: Setup Java
         uses: actions/setup-java@v3
         with:
-          java-version: '11'
+          java-version: '17'
           distribution: 'liberica'
 #          cache: 'gradle'
       - name: Run gradle check
