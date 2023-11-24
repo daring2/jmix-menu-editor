@@ -1,9 +1,11 @@
 package ru.itsyn.jmix.menu_editor.screen.menu;
 
+import com.vaadin.flow.component.grid.ItemDoubleClickEvent;
 import com.vaadin.flow.router.Route;
 import io.jmix.core.MetadataTools;
 import io.jmix.core.UuidProvider;
 import io.jmix.flowui.DialogWindows;
+import io.jmix.flowui.action.list.EditAction;
 import io.jmix.flowui.component.grid.DataGrid;
 import io.jmix.flowui.kit.action.ActionPerformedEvent;
 import io.jmix.flowui.view.*;
@@ -26,9 +28,11 @@ public class MenuEntityBrowser extends StandardListView<MenuEntity> {
 
     @ViewComponent
     protected DataGrid<MenuEntity> table;
+    @ViewComponent("table.edit")
+    protected EditAction<MenuEntity> tableEditAction;
 
     @Subscribe("table.copy")
-    public void onMenuCopy(ActionPerformedEvent event) {
+    protected void onMenuCopy(ActionPerformedEvent event) {
         var entity = table.getSingleSelectedItem();
         if (entity == null)
             return;
@@ -41,8 +45,14 @@ public class MenuEntityBrowser extends StandardListView<MenuEntity> {
     }
 
     @Subscribe("table.apply")
-    public void onMenuApply(ActionPerformedEvent event) {
+    protected void onMenuApply(ActionPerformedEvent event) {
         appMenuManager.reloadAppMenu();
+    }
+
+    @Subscribe("table")
+    protected void onTableItemDoubleClick(ItemDoubleClickEvent<MenuEntity> event) {
+        table.select(event.getItem());
+        tableEditAction.actionPerform(table);
     }
 
 }

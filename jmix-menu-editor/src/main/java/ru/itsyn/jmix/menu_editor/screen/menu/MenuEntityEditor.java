@@ -86,7 +86,7 @@ public class MenuEntityEditor extends StandardDetailView<MenuEntity> {
     @ViewComponent
     protected TreeDataGrid<MenuItemEntity> itemsTable;
     @ViewComponent("itemsTable.edit")
-    protected EditAction<MenuItemEntity> itemsTableEdit;
+    protected EditAction<MenuItemEntity> itemsTableEditAction;
 
     @Subscribe
     public void onInit(InitEvent event) {
@@ -247,7 +247,7 @@ public class MenuEntityEditor extends StandardDetailView<MenuEntity> {
     @Subscribe("itemsTable")
     protected void onItemDoubleClick(ItemDoubleClickEvent<MenuItemEntity> event) {
         itemsTable.select(event.getItem());
-        itemsTableEdit.actionPerform(itemsTable);
+        itemsTableEditAction.actionPerform(itemsTable);
     }
 
     @Subscribe
