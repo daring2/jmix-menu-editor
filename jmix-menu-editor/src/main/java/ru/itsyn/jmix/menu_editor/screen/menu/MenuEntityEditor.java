@@ -150,6 +150,7 @@ public class MenuEntityEditor extends StandardDetailView<MenuEntity> {
         if (parent.equals(item) || parent.hasAncestor(item)) {
             var warning = messages.getMessage(getClass(), "cyclicDependencyWarning");
             notifications.create(warning)
+                    .withType(Notifications.Type.WARNING)
                     .show();
             return;
         }
