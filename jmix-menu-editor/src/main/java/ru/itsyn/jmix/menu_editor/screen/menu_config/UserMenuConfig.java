@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import ru.itsyn.jmix.menu_editor.entity.MenuEntity;
 
 import javax.annotation.Nullable;
+import java.util.HashMap;
 
 @UIScope
 @Component("menu_UserMenuConfig")
@@ -30,7 +31,7 @@ public class UserMenuConfig extends BaseMenuConfig {
         if (userMenu != null) {
             rootItems.clear();
             var d = dom4JTools.readDocument(userMenu.getConfig());
-            loadMenuItems(d.getRootElement(), null);
+            loadMenuItems(d.getRootElement(), null, new HashMap<>());
             return;
         }
         rootItems = configLoader.loadDefaultConfig();

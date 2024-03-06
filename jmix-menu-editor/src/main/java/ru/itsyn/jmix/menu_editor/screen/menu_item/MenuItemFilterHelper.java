@@ -43,7 +43,7 @@ public class MenuItemFilterHelper {
 
 
     public PropertyCondition findPropertyCondition(Condition condition, String property) {
-        condition = condition != null ? condition.actualize(emptySet()) : null;
+        condition = condition != null ? condition.actualize(emptySet(), false) : null;
         return createConditionStream(condition)
                 .filter(c -> c instanceof PropertyCondition)
                 .map(c -> (PropertyCondition) c)

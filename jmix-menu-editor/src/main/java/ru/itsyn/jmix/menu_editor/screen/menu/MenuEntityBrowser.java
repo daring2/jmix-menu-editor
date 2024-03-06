@@ -49,10 +49,4 @@ public class MenuEntityBrowser extends StandardListView<MenuEntity> {
         appMenuManager.reloadAppMenu();
     }
 
-    @Subscribe("table")
-    protected void onTableItemDoubleClick(ItemDoubleClickEvent<MenuEntity> event) {
-        table.select(event.getItem());
-        tableEditAction.actionPerform(table);
-    }
-
 }

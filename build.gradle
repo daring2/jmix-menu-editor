@@ -2,7 +2,7 @@ plugins {
     id 'java-library'
     id 'maven-publish'
     id 'signing'
-    id 'io.jmix' version '2.1.1' apply false
+    id 'io.jmix' version '2.2.0.1' apply false
 }
 
 group = 'io.github.it-syn'
@@ -20,7 +20,7 @@ subprojects {
     }
 
     jmix {
-        bomVersion = '2.1.1'
+        bomVersion = '2.2.0'
         projectId = 'menu'
     }
 

@@ -245,12 +245,6 @@ public class MenuEntityEditor extends StandardDetailView<MenuEntity> {
         itemsDl.load();
     }
 
-    @Subscribe("itemsTable")
-    protected void onItemDoubleClick(ItemDoubleClickEvent<MenuItemEntity> event) {
-        itemsTable.select(event.getItem());
-        itemsTableEditAction.actionPerform(itemsTable);
-    }
-
     @Subscribe
     protected void onBeforeSave(BeforeSaveEvent event) {
         var rootItem = getRootItem();

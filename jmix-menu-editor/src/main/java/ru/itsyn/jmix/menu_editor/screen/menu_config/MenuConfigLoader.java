@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Component("menu_MenuConfigLoader")
@@ -22,7 +23,7 @@ public class MenuConfigLoader extends BaseMenuConfig {
         if (xml == null)
             return rootItems;
         var rootElement = Dom4j.readDocument(xml).getRootElement();
-        loadMenuItems(rootElement, null);
+        loadMenuItems(rootElement, null, new HashMap<>());
         return rootItems;
     }
 
