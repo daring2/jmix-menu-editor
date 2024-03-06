@@ -15,7 +15,7 @@ class MenuConfigLoaderTest {
     @Test
     public void testLoadDefaultConfig() {
         var items = configLoader.loadDefaultConfig();
-        assertEquals(2, items.size());
+        assertEquals(1, items.size());
         var rootItem = items.get(0);
         assertEquals("administration", rootItem.getId());
         assertEquals(1, rootItem.getChildren().size());

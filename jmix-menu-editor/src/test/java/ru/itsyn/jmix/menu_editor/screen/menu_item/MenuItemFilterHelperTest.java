@@ -21,7 +21,10 @@ class MenuItemFilterHelperTest {
     public void testFindPropertyCondition() {
         var helper = new MenuItemFilterHelper();
         var conditions = IntStream.range(0, 3)
-                .mapToObj(i -> PropertyCondition.create("p" + i, "", ""))
+                .mapToObj(i -> PropertyCondition
+                        .create("p" + i, "", "")
+                        .skipNullOrEmpty()
+                )
                 .collect(Collectors.toList());
         var rootCondition = LogicalCondition.and(
                 LogicalCondition.and(conditions.get(0), conditions.get(1)),
