@@ -23,11 +23,11 @@ according [the platform documentation](https://docs.jmix.io/jmix/studio/marketpl
 
 The add-on versions:
 
-| Jmix Version | Add-on Version                                                                          |
-|--------------|-----------------------------------------------------------------------------------------|
-| 1.4.x        | [0.8.5](https://central.sonatype.com/artifact/io.github.it-syn/jmix-menu-editor/0.8.5)  |
-| 1.5.x        | [0.8.6](https://central.sonatype.com/artifact/io.github.it-syn/jmix-menu-editor/0.8.6)  |
-| 2.1.x        | [0.9.0](https://central.sonatype.com/artifact/io.github.it-syn/jmix-menu-editor/0.9.0)  |
+| Jmix Version | Add-on Version                                                                         |
+|--------------|----------------------------------------------------------------------------------------|
+| 1.4.x        | [0.8.5](https://central.sonatype.com/artifact/io.github.it-syn/jmix-menu-editor/0.8.5) |
+| 1.5.x        | [0.8.6](https://central.sonatype.com/artifact/io.github.it-syn/jmix-menu-editor/0.8.6) |
+| 2.1.x        | [0.9.1](https://central.sonatype.com/artifact/io.github.it-syn/jmix-menu-editor/0.9.1) |
 
 ## Getting started
 
