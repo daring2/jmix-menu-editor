@@ -73,11 +73,18 @@ subprojects {
                 }
             }
         }
+//        repositories.maven {
+//            url = 'https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/'
+//            credentials {
+//                username = findProperty('ossrhUsername')
+//                password = findProperty('ossrhPassword')
+//            }
+//        }
         repositories.maven {
-            url = 'https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/'
+            url = 'https://nexus-0c11e01a.xaas.msk.vkcs.cloud/repository/maven-releases/'
             credentials {
-                username = findProperty('ossrhUsername')
-                password = findProperty('ossrhPassword')
+                username = findProperty('opus.nexusUser')
+                password = findProperty('opus.nexusPassword')
             }
         }
     }
